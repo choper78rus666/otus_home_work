@@ -5,7 +5,7 @@ import 'package:home_work/helpers.dart';
 // Формируем карточки для списка
 final recipientCardSliverDelegate = SliverChildBuilderDelegate(
   (context, index) => Card(
-    margin: const EdgeInsets.symmetric(vertical: 8.0),
+    margin: const EdgeInsets.symmetric(vertical: 12.0),
     child: SizedBox(
       height: 136,
       child: Row(
