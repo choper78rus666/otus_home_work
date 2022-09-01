@@ -17,7 +17,7 @@ class _RecipientsListState extends State<RecipientsList> {
 
   Widget _buildCustomList(BuildContext context) {
     return ListView.custom(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.symmetric(vertical: 68.0, horizontal: 16.0),
       childrenDelegate: recipientCardSliverDelegate,
     );
   }
