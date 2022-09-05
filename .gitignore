@@ -1,1 +1,12 @@
 /.packages
+/.idea/.gitignore
+/.idea/libraries/Dart_Packages.xml
+/.idea/libraries/Dart_SDK.xml
+/.idea/libraries/Flutter_Plugins.xml
+/.idea/home_work.iml
+/.idea/misc.xml
+/.idea/modules.xml
+/.dart_tool/package_config.json
+/.dart_tool/package_config_subset
+/.idea/vcs.xml
+/.dart_tool/version
