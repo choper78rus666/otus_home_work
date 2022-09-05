@@ -15,9 +15,10 @@ String timeToString(int time) {
     if (minutes > 0) {
       result += convertNumString(minutes, ['минута', 'минуты', 'минут']);
     }
-
-    return result;
   }
+
+  // Если время не установлено, выведем 'До готовности'
+  if(result.isEmpty) result = 'До готовности';
 
   return result;
 }

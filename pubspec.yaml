@@ -66,6 +66,7 @@ flutter:
     - assets/images/recipient_mini5.png
     - assets/images/recipient_mini6.png
     - assets/images/recipient_mini7.png
+    - assets/images/no_image.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -3,7 +3,7 @@ const List<Map<String, dynamic>> recipientsList = [
   {
     'imagePath': 'assets/images/recipient_mini.png',
     'title': 'Лосось в соусе терияки',
-    'time': 45,
+    'time': 0,
   },
   {
     'imagePath': 'assets/images/recipient_mini2.png',
