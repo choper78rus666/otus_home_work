@@ -8,13 +8,16 @@ class RecipeList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: _buildList(context));
+    return Scaffold(
+      backgroundColor: Color(0xffececec),
+      body: _buildList(context),
+    );
   }
 
   Widget _buildList(BuildContext context) {
     return SafeArea(
       child: ListView.builder(
-          padding: const EdgeInsets.symmetric(vertical: 68.0, horizontal: 16.0),
+          padding: const EdgeInsets.fromLTRB(16, 33, 16, 69),
           itemCount: recipientsList.length,
           itemBuilder: (BuildContext context, int index) {
             return _buildCard(index);
@@ -25,7 +28,7 @@ class RecipeList extends StatelessWidget {
   // Формирование карточки
   Widget _buildCard(index) {
     return Card(
-      elevation: 10.0,
+      elevation: 4.0,
       margin: const EdgeInsets.symmetric(vertical: 12.0),
       child: SizedBox(
         height: 136,
