@@ -9,7 +9,7 @@ class RecipeList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffececec),
+      backgroundColor: const Color(0xffececec),
       body: _buildList(context),
     );
   }

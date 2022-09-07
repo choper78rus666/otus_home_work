@@ -46,5 +46,5 @@ String convertNumString(int value, List strList) {
       result = strList[2];
   }
 
-  return '${value.toString()} ${result}';
+  return '$value $result';
 }
