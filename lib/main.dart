@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:home_work/recipeDetailPage.dart';
 import 'package:home_work/recipients_list.dart';
 
 void main() {
@@ -12,7 +13,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: RecipeList(key: key),
+      initialRoute: '/',
+      routes: {'/': (BuildContext context) => RecipeList(key: key)},
+      onGenerateRoute: (routeSettings) {
+        var path = routeSettings.name.toString().split('/');
+
+        if (path[1] == "recipe-detail") {
+          return MaterialPageRoute(
+            builder: (BuildContext context) => RecipeDetailPage(index: int.parse(path[2])),
+            settings: routeSettings,
+          );
+        }
+      },
     );
   }
 }

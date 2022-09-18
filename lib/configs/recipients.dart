@@ -1,9 +1,10 @@
-import 'package:home_work/configs/ingredients.dart';
-
 // Файл конфигурации рецептов
-const List<Map<String, dynamic>> recipientsList = [
+const List<Map<String, dynamic>> recipeList = [
   {
-    'imagePath': 'assets/images/recipient_mini.png',
+    'imagePaths': {
+      'mini': 'assets/images/recipient_mini.png',
+      'detail': 'assets/images/recipe_detail.png',
+    },
     'title': 'Лосось в соусе терияки',
     'time': 45,
     'ingredientsList': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
@@ -39,32 +40,50 @@ const List<Map<String, dynamic>> recipientsList = [
     ],
   },
   {
-    'imagePath': 'assets/images/recipient_mini2.png',
+    'imagePaths': {
+      'mini': 'assets/images/recipient_mini2.png',
+      'detail': '',
+    },
     'title': 'Поке боул с сыром тофу',
     'time': 30,
   },
   {
-    'imagePath': 'assets/images/recipient_mini3.png',
+    'imagePaths': {
+      'mini': 'assets/images/recipient_mini3.png',
+      'detail': '',
+    },
     'title': 'Стейк из говядины по-грузински с кукурузой',
     'time': 75,
   },
   {
-    'imagePath': 'assets/images/recipient_mini4.png',
+    'imagePaths': {
+      'mini': 'assets/images/recipient_mini4.png',
+      'detail': '',
+    },
     'title': 'Тосты с голубикой и бананом',
     'time': 45,
   },
   {
-    'imagePath': 'assets/images/recipient_mini5.png',
+    'imagePaths': {
+      'mini': 'assets/images/recipient_mini5.png',
+      'detail': '',
+    },
     'title': 'Паста с морепродуктами',
     'time': 25,
   },
   {
-    'imagePath': 'assets/images/recipient_mini6.png',
+    'imagePaths': {
+      'mini': 'assets/images/recipient_mini6.png',
+      'detail': '',
+    },
     'title': 'Бургер с двумя котлетами',
     'time': 60,
   },
   {
-    'imagePath': 'assets/images/recipient_mini7.png',
+    'imagePaths': {
+      'mini': 'assets/images/recipient_mini7.png',
+      'detail': 'assets/images/recipe_detail7.png',
+    },
     'title': 'Пицца Маргарита домашняя',
     'time': 25,
     'ingredientsList': [11, 12, 13, 14, 15, 16],

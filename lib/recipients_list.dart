@@ -18,7 +18,7 @@ class RecipeList extends StatelessWidget {
     return SafeArea(
       child: ListView.builder(
           padding: const EdgeInsets.fromLTRB(16, 33, 16, 69),
-          itemCount: recipientsList.length,
+          itemCount: recipeList.length,
           itemBuilder: (BuildContext context, int index) {
             return RecipeCard(index: index, typeCard: 'recipeList');
           }),

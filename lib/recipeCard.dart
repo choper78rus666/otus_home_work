@@ -12,11 +12,12 @@ class RecipeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _buildCard();
+    return _buildCard(context);
   }
 
   // Формирование карточки
-  Widget _buildCard() {
+  Widget _buildCard(BuildContext context) {
+    // клик для дальнейшего перехода в карточку
     return GestureDetector(
       key: key,
       child: Card(
@@ -31,9 +32,9 @@ class RecipeCard extends StatelessWidget {
                 width: 149,
                 height: 136,
                 child: Image.asset(
-                  recipientsList[index]['imagePath'].toString().isEmpty
+                  recipeList[index]['imagePaths']['mini'].toString().isEmpty
                       ? 'assets/images/no_image.png'
-                      : recipientsList[index]['imagePath'],
+                      : recipeList[index]['imagePaths']['mini'],
                   fit: BoxFit.fill,
                 ),
               ),
@@ -46,7 +47,7 @@ class RecipeCard extends StatelessWidget {
                       SizedBox(
                         height: 52,
                         child: Text(
-                          recipientsList[index]['title'] ?? '',
+                          recipeList[index]['title'] ?? '',
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
@@ -70,7 +71,7 @@ class RecipeCard extends StatelessWidget {
                               padding: const EdgeInsets.only(left: 11.0),
                               child: Text(
                                 timeToString(
-                                    recipientsList[index]['time'] ?? 0),
+                                    recipeList[index]['time'] ?? 0),
                                 style: const TextStyle(
                                   color: Color(0xff2ECC71),
                                   fontSize: 16,
@@ -89,7 +90,8 @@ class RecipeCard extends StatelessWidget {
           ),
         ),
       ),
-      onTap: () => debugPrint('open $index'),
+      // TODO: Написать навигацию для перехода в карточку
+      onTap: () => Navigator.pushNamed(context, '/recipe-detail/$index'),
     );
   }
 }
