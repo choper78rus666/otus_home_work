@@ -61,6 +61,7 @@ flutter:
   assets:
     - assets/icons/back.png
     - assets/icons/megaphone.png
+    - assets/icons/heart.png
     - assets/images/recipe_detail.png
     - assets/images/recipe_detail7.png
     - assets/images/recipient_mini.png
