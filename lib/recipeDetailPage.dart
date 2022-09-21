@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:home_work/helpers.dart';
 import 'configs/recipients.dart';
+import 'configs/ingredients.dart';
 
 class RecipeDetailPage extends StatelessWidget {
   final int? index;
@@ -52,32 +53,28 @@ class RecipeDetailPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 38),
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              height: 32,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 32,
-                    child: Text(
-                      recipeList[index]['title'] ?? '',
-                      style: const TextStyle(
-                        fontFamily: 'Roboto',
-                        fontSize: 24,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      softWrap: true,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Text(
+                    recipeList[index]['title'] ?? '',
+                    style: const TextStyle(
+                      fontFamily: 'Roboto',
+                      fontSize: 24,
+                      fontWeight: FontWeight.w500,
                     ),
+                    softWrap: true,
                   ),
-                  IconButton(
-                    padding: const EdgeInsets.symmetric(horizontal: 23),
-                    icon: Image.asset('assets/icons/heart.png'),
-                    tooltip: 'Избранное',
-                    onPressed: () {},
-                  ),
-                ],
-              ),
+                ),
+                IconButton(
+                  padding: const EdgeInsets.symmetric(horizontal: 23),
+                  icon: Image.asset('assets/icons/heart.png'),
+                  tooltip: 'Избранное',
+                  onPressed: () {},
+                ),
+              ],
             ),
             SizedBox(
               height: 32,
@@ -105,9 +102,7 @@ class RecipeDetailPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 12),
               child: Image.asset(
-                recipeList[index]['imagePaths']['detail']
-                    .toString()
-                    .isEmpty
+                recipeList[index]['imagePaths']['detail'].toString().isEmpty
                     ? 'assets/images/no_image.png'
                     : recipeList[index]['imagePaths']['detail'],
                 fit: BoxFit.contain,
@@ -127,10 +122,41 @@ class RecipeDetailPage extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(5)),
-                  border: Border.all(color: const Color(0XFF797676), width: 3,)
+                border: Border.all(
+                  color: const Color(0XFF797676),
+                  width: 3,
+                ),
               ),
-              //Todo: список ингредиентов
-              child: ListView(),
+              // список ингредиентов
+              child: Column(
+                children: [
+                  ...(recipeList[index]['ingredientsList'] != null
+                      ? recipeList[index]['ingredientsList']
+                          .map(
+                            (value) => ListTile(minLeadingWidth:5,
+                              leading: const Text('\u2022',style: TextStyle(
+                                fontSize: 24,
+                              ),),
+                              title: Text( ingredientsList[value['id']], style:
+                              const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600,),),
+                               trailing: Text(value['count'] == ''
+                                  ? 'по вкусу'
+                                  : value['count']),
+                            ),
+                          )
+                          .toList()
+                      : [
+                          const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 15),
+                            child: Text(
+                              'Ингредиенты отсутствуют'
+                            ),
+                          ),
+                        ])
+                ],
+              ),
             ),
             const Text('end')
           ],

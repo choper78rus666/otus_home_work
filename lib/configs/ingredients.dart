@@ -1,5 +1,5 @@
 // Файл конфигурации ингредиентов
-const Set<String> ingredientsList = {
+const List<String> ingredientsList = [
   "Соевый соус",
   "Вода",
   "Мёд",
@@ -17,4 +17,4 @@ const Set<String> ingredientsList = {
   "Помидор",
   "Базилик зеленый",
   "Масло оливковое"
-};
+];

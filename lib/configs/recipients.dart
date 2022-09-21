@@ -7,7 +7,19 @@ const List<Map<String, dynamic>> recipeList = [
     },
     'title': 'Лосось в соусе терияки',
     'time': 45,
-    'ingredientsList': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    'ingredientsList': [
+      {'id':0, 'count':'8 ст. ложек'},
+      {'id':1, 'count':'8 ст. ложек'},
+      {'id':2, 'count':'3 ст. ложки'},
+      {'id':3, 'count':'2 ст. ложки'},
+      {'id':4, 'count':'3 зубчика'},
+      {'id':5, 'count':'1 ст. ложка'},
+      {'id':6, 'count':'1¹⁄₂ ст. ложки'},
+      {'id':7, 'count':'1 ст. ложка'},
+      {'id':8, 'count':'1 ч. ложка'},
+      {'id':9, 'count':'680 г'},
+      {'id':10, 'count':''},
+    ],
     'steps': [
       {
         'time': 6,

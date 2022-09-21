@@ -90,7 +90,7 @@ class RecipeCard extends StatelessWidget {
           ),
         ),
       ),
-      // TODO: Написать навигацию для перехода в карточку
+      // Навигация для перехода в карточку
       onTap: () => Navigator.pushNamed(context, '/recipe-detail/$index'),
     );
   }
