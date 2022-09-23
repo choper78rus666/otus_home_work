@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:home_work/helpers.dart';
+import 'package:home_work/executionSteps.dart';
 import 'configs/recipients.dart';
 import 'configs/ingredients.dart';
 
@@ -61,7 +62,6 @@ class RecipeDetailPage extends StatelessWidget {
                   child: Text(
                     recipeList[index]['title'] ?? '',
                     style: const TextStyle(
-                      fontFamily: 'Roboto',
                       fontSize: 24,
                       fontWeight: FontWeight.w500,
                     ),
@@ -101,25 +101,32 @@ class RecipeDetailPage extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 12),
-              child: Image.asset(
-                recipeList[index]['imagePaths']['detail'].toString().isEmpty
-                    ? 'assets/images/no_image.png'
-                    : recipeList[index]['imagePaths']['detail'],
-                fit: BoxFit.contain,
-                width: double.infinity,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Image.asset(
+                  recipeList[index]['imagePaths']['detail'].toString().isEmpty
+                      ? 'assets/images/no_image.png'
+                      : recipeList[index]['imagePaths']['detail'],
+                  fit: BoxFit.contain,
+                  width: double.infinity,
+                ),
               ),
             ),
             const Padding(
-              padding: EdgeInsets.fromLTRB(3, 0, 0, 18),
+              padding: EdgeInsets.fromLTRB(0, 3, 0, 18),
               child: Text(
                 'Ингредиенты',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 16,
                   color: Color(0xFF165932),
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),
             Container(
+              padding: const EdgeInsets.fromLTRB(12, 12, 8, 12),
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(5)),
                 border: Border.all(
@@ -128,36 +135,152 @@ class RecipeDetailPage extends StatelessWidget {
                 ),
               ),
               // список ингредиентов
-              child: Column(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ...(recipeList[index]['ingredientsList'] != null
-                      ? recipeList[index]['ingredientsList']
-                          .map(
-                            (value) => ListTile(minLeadingWidth:5,
-                              leading: const Text('\u2022',style: TextStyle(
-                                fontSize: 24,
-                              ),),
-                              title: Text( ingredientsList[value['id']], style:
-                              const TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600,),),
-                               trailing: Text(value['count'] == ''
-                                  ? 'по вкусу'
-                                  : value['count']),
-                            ),
-                          )
-                          .toList()
+                      ? [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ...(recipeList[index]['ingredientsList']
+                                  .map(
+                                    (value) => SizedBox(
+                                      height: 27,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          const Text(
+                                            '\u2022',
+                                            style: TextStyle(
+                                              letterSpacing: 5,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                          Text(
+                                            ingredientsList[value['id']],
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                  .toList())
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ...(recipeList[index]['ingredientsList'].map(
+                                (value) => SizedBox(
+                                  height: 27,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        value['count'] == ''
+                                            ? 'по вкусу'
+                                            : value['count'],
+                                        style: const TextStyle(
+                                          fontSize: 13,
+                                          color: Color(0xFF797676),
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )).toList()
+                            ],
+                          ),
+                        ]
                       : [
                           const Padding(
                             padding: EdgeInsets.symmetric(vertical: 15),
-                            child: Text(
-                              'Ингредиенты отсутствуют'
-                            ),
+                            child: Text('Ингредиенты отсутствуют'),
                           ),
-                        ])
+                        ]),
                 ],
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 18),
+              child: Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 232,
+                      height: 48,
+                      //padding: const EdgeInsets.fromLTRB(12, 12, 8, 12),
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(25)),
+                        border: Border.all(
+                          color: const Color(0xFF165932),
+                          width: 3,
+                        ),
+                      ),
+                      // список ингредиентов
+                      child: OutlinedButton(
+                        style: ButtonStyle(
+                            shape: MaterialStateProperty.all(
+                                const StadiumBorder()),
+                            minimumSize:
+                                MaterialStateProperty.all(const Size(232, 48))),
+                        child: const Text(
+                          "Проверить наличие",
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Color(0xFF165932),
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        onPressed: () {
+                          print("Clicked!!!");
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 18),
+              child: Text(
+                'Шаги приготовления',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Color(0xFF165932),
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            Column(children: [...(recipeList[index]['steps'].map(
+                  (value) => SizedBox(
+                height: 27,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      value['description'],
+                      style: const TextStyle(
+                        fontSize: 13,
+                        color: Color(0xFF797676),
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    //const ExecutionSteps()
+                  ],
+                ),
+              )
+            )).toList()]),
             const Text('end')
           ],
         ),
