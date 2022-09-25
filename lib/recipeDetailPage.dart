@@ -4,6 +4,7 @@ import 'package:home_work/helpers.dart';
 import 'package:home_work/executionSteps.dart';
 import 'configs/recipients.dart';
 import 'configs/ingredients.dart';
+import 'globals.dart';
 
 class RecipeDetailPage extends StatelessWidget {
   final int? index;
@@ -47,6 +48,9 @@ class RecipeDetailPage extends StatelessWidget {
   }
 
   Widget _buildDetail(BuildContext context, index) {
+    int nextStep = 0;
+    MyService myService = MyService();
+
     return SafeArea(
       child: Container(
         color: Colors.white,
@@ -69,10 +73,13 @@ class RecipeDetailPage extends StatelessWidget {
                   ),
                 ),
                 IconButton(
+                  color: myService.myVariable[index]['is_favorite'] ? Colors.red :Colors.black,
                   padding: const EdgeInsets.symmetric(horizontal: 23),
                   icon: Image.asset('assets/icons/heart.png'),
                   tooltip: 'Избранное',
-                  onPressed: () {},
+                  onPressed: () {
+                    myService.myVariable[index]['is_favorite'] = !myService.myVariable[index]['is_favorite'];
+                  },
                 ),
               ],
             ),
@@ -209,47 +216,46 @@ class RecipeDetailPage extends StatelessWidget {
                 ],
               ),
             ),
-            Padding(
+            Container(
               padding: const EdgeInsets.symmetric(vertical: 18),
-              child: Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 232,
-                      height: 48,
-                      //padding: const EdgeInsets.fromLTRB(12, 12, 8, 12),
-                      decoration: BoxDecoration(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(25)),
-                        border: Border.all(
-                          color: const Color(0xFF165932),
-                          width: 3,
-                        ),
-                      ),
-                      // список ингредиентов
-                      child: OutlinedButton(
-                        style: ButtonStyle(
-                            shape: MaterialStateProperty.all(
-                                const StadiumBorder()),
-                            minimumSize:
-                                MaterialStateProperty.all(const Size(232, 48))),
-                        child: const Text(
-                          "Проверить наличие",
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Color(0xFF165932),
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        onPressed: () {
-                          print("Clicked!!!");
-                        },
+              // child: Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 232,
+                    height: 48,
+                    //padding: const EdgeInsets.fromLTRB(12, 12, 8, 12),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(25)),
+                      border: Border.all(
+                        color: const Color(0xFF165932),
+                        width: 3,
                       ),
                     ),
-                  ],
-                ),
+                    // список ингредиентов
+                    child: OutlinedButton(
+                      style: ButtonStyle(
+                          shape:
+                              MaterialStateProperty.all(const StadiumBorder()),
+                          minimumSize:
+                              MaterialStateProperty.all(const Size(232, 48))),
+                      child: const Text(
+                        "Проверить наличие",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Color(0xFF165932),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      onPressed: () {
+                        debugPrint("Clicked!!!");
+                      },
+                    ),
+                  ),
+                ],
               ),
+              // ),
             ),
             const Padding(
               padding: EdgeInsets.fromLTRB(0, 0, 0, 18),
@@ -262,25 +268,75 @@ class RecipeDetailPage extends StatelessWidget {
                 ),
               ),
             ),
-            Column(children: [...(recipeList[index]['steps'].map(
-                  (value) => SizedBox(
-                height: 27,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      value['description'],
-                      style: const TextStyle(
-                        fontSize: 13,
-                        color: Color(0xFF797676),
-                        fontWeight: FontWeight.w400,
+            Column(children: [
+              ...(recipeList[index]['steps'] == null
+                  ? []
+                  : recipeList[index]['steps']
+                      .map((value) => SizedBox(
+                            height: 27,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    value['description'],
+                                    style: const TextStyle(
+                                      fontSize: 13,
+                                      color: Color(0xFF797676),
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: ExecutionSteps(
+                                      index: index, step: nextStep++),
+                                ),
+                              ],
+                            ),
+                          ))
+                      .toList())
+            ]),
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 18),
+              // child: Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 232,
+                    height: 48,
+                    //padding: const EdgeInsets.fromLTRB(12, 12, 8, 12),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(25)),
+                      border: Border.all(
+                        color: const Color(0xFF165932),
+                        width: 3,
                       ),
                     ),
-                    //const ExecutionSteps()
-                  ],
-                ),
-              )
-            )).toList()]),
+                    // список ингредиентов
+                    child: OutlinedButton(
+                      style: ButtonStyle(
+                          shape:
+                          MaterialStateProperty.all(const StadiumBorder()),
+                          minimumSize:
+                          MaterialStateProperty.all(const Size(232, 48))),
+                      child: const Text(
+                        "Начать готовить",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Color(0xFF165932),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      onPressed: () {
+                        myService.myVariable[index]['is_started'] = !myService.myVariable[index]['is_started'];
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              // ),
+            ),
             const Text('end')
           ],
         ),

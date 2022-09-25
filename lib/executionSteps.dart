@@ -1,46 +1,11 @@
 import 'package:flutter/material.dart';
-import 'configs/recipients.dart';
-
-class LabeledCheckbox extends StatelessWidget {
-  const LabeledCheckbox({
-    super.key,
-    required this.label,
-    required this.padding,
-    required this.value,
-    required this.onChanged,
-  });
-
-  final String label;
-  final EdgeInsets padding;
-  final bool value;
-  final ValueChanged<bool> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        onChanged(!value);
-      },
-      child: Padding(
-        padding: padding,
-        child: Row(
-          children: <Widget>[
-            Expanded(child: Text(label)),
-            Checkbox(
-              value: value,
-              onChanged: (bool? newValue) {
-                onChanged(newValue!);
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+import 'package:home_work/globals.dart';
 
 class ExecutionSteps extends StatefulWidget {
-  const ExecutionSteps({super.key});
+  final int index;
+  final int step;
+
+  const ExecutionSteps({super.key, required this.index, required this.step});
 
   @override
   State<ExecutionSteps> createState() => _ExecutionStepsState();
@@ -51,15 +16,26 @@ class _ExecutionStepsState extends State<ExecutionSteps> {
 
   @override
   Widget build(BuildContext context) {
-    return LabeledCheckbox(
-      label: 'This is the label text',
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+    MyService myService = MyService();
+    _isSelected = myService.myVariable[widget.index]['steps'][widget.step] ?? false;
+    return Transform.scale(
+        scale: 2.5,
+        child:Checkbox(
+      splashRadius: 0,
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
+      side: const BorderSide(color: Color(0xFF165932), width: 3),
+      activeColor: const Color(0xFF165932),
       value: _isSelected,
-      onChanged: (bool newValue) {
-        setState(() {
-          _isSelected = newValue;
-        });
+      tristate: true,
+      onChanged: (bool? newValue) {
+        if(myService.myVariable[widget.index]['is_started']){
+          setState(() {
+            _isSelected = newValue!;
+            myService.myVariable[widget.index]['steps'][widget.step] = _isSelected;
+            print(myService.myVariable);
+          });
+        }
       },
-    );
+    ));
   }
 }

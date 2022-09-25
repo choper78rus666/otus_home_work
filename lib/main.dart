@@ -17,10 +17,12 @@ class MyApp extends StatelessWidget {
       routes: {'/': (BuildContext context) => RecipeList(key: key)},
       onGenerateRoute: (routeSettings) {
         var path = routeSettings.name.toString().split('/');
-
-        if (path[1] == "recipe-detail") {
+        if (path[1] == "recipe-detail" &&
+            path.length > 2 &&
+            path[2].isNotEmpty) {
           return MaterialPageRoute(
-            builder: (BuildContext context) => RecipeDetailPage(index: int.parse(path[2])),
+            builder: (BuildContext context) =>
+                RecipeDetailPage(index: int.parse(path[2])),
             settings: routeSettings,
           );
         }
