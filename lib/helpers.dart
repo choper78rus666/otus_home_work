@@ -18,7 +18,7 @@ String timeToString(int time) {
   }
 
   // Если время не установлено, выведем 'До готовности'
-  if(result.isEmpty) result = 'До готовности';
+  if (result.isEmpty) result = 'До готовности';
 
   return result;
 }

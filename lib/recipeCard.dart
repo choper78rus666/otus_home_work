@@ -70,8 +70,7 @@ class RecipeCard extends StatelessWidget {
                             Container(
                               padding: const EdgeInsets.only(left: 11.0),
                               child: Text(
-                                timeToString(
-                                    recipeList[index]['time'] ?? 0),
+                                timeToString(recipeList[index]['time'] ?? 0),
                                 style: const TextStyle(
                                   color: Color(0xff2ECC71),
                                   fontSize: 16,

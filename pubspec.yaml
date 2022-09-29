@@ -62,6 +62,8 @@ flutter:
     - assets/icons/back.png
     - assets/icons/megaphone.png
     - assets/icons/heart.png
+    - assets/icons/heart_active.png
+    - assets/icons/image_downloads.png
     - assets/images/recipe_detail.png
     - assets/images/recipe_detail7.png
     - assets/images/recipient_mini.png
