@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:home_work/globals.dart';
 import 'configs/recipients.dart';
 
+// Шаги приготовления
+
 class StartProcess extends StatefulWidget {
   final int index;
 
@@ -14,8 +16,8 @@ class StartProcess extends StatefulWidget {
 class _StartProcessState extends State<StartProcess> {
   @override
   Widget build(BuildContext context) {
-    MyService myService = MyService();
-    bool isStarted = myService.myVariable[widget.index]['is_started'] ?? false;
+    Globals globals = Globals();
+    bool isStarted = globals.myVariable[widget.index]['is_started'] ?? false;
     int nextStep = 0;
 
     return Column(children: [
@@ -23,77 +25,83 @@ class _StartProcessState extends State<StartProcess> {
       ...(recipeList[widget.index]['steps'] == null
           ? []
           : recipeList[widget.index]['steps']
-              .map((value) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 7),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: isStarted
-                            ? const Color.fromARGB(38, 46, 204, 113)
-                            : const Color(0xFFECECEC),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      height: 120,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 24),
-                              child: Text(
-                                (nextStep + 1).toString(),
-                                style: TextStyle(
-                                  fontSize: 40,
-                                  color: isStarted
-                                      ? const Color(0xFF2ECC71)
-                                      : const Color(0xFFC2C2C2),
-                                  fontWeight: FontWeight.w900,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 3,
-                            child: Text(
-                              value['description'],
-                              style: TextStyle(
-                                fontSize: 13,
-                                color: isStarted
-                                    ? const Color(0xFF2D490C)
-                                    : const Color(0xFF797676),
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(20, 0, 30, 0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  ExecutionSteps(
-                                      index: widget.index, step: nextStep++),
-                                  Text(
-                                    value['time'].toString(),
-                                    softWrap: false,
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      color: isStarted
-                                          ? const Color(0xFF165932)
-                                          : const Color(0xFF797676),
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+              .map(
+                (value) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 7),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: isStarted
+                          ? const Color.fromARGB(38, 46, 204, 113)
+                          : const Color(0xFFECECEC),
+                      borderRadius: BorderRadius.circular(5),
                     ),
-                  ))
+                    height: 120,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24),
+                            child: Text(
+                              (nextStep + 1).toString(),
+                              style: TextStyle(
+                                fontSize: 40,
+                                color: isStarted
+                                    ? const Color(0xFF2ECC71)
+                                    : const Color(0xFFC2C2C2),
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 3,
+                          child: Text(
+                            value['description'],
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: isStarted
+                                  ? const Color(0xFF2D490C)
+                                  : const Color(0xFF797676),
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 0, 30, 0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                ExecutionSteps(
+                                    index: widget.index, step: nextStep++),
+                                Text(
+                                  (value['time'] ?? '0')
+                                      .toString()
+                                      .padLeft(2, '0')
+                                      .padLeft(3, '00:'),
+                                  softWrap: false,
+                                  style: TextStyle(
+                                    height: 0.8,
+                                    fontSize: 13,
+                                    color: isStarted
+                                        ? const Color(0xFF165932)
+                                        : const Color(0xFF797676),
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              )
               .toList()),
+      // Кнопка начала приготовления, перерисовывает чекбоксы
       Container(
-        padding: const EdgeInsets.symmetric(vertical: 20),
+        padding: const EdgeInsets.fromLTRB(0, 20, 0, 32),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -126,7 +134,7 @@ class _StartProcessState extends State<StartProcess> {
                   ),
                 ),
                 onPressed: () {
-                  myService.myVariable[widget.index]['is_started'] = !isStarted;
+                  globals.myVariable[widget.index]['is_started'] = !isStarted;
                   setState(() {});
                 },
               ),
@@ -138,6 +146,7 @@ class _StartProcessState extends State<StartProcess> {
   }
 }
 
+// Выводим чекбоксы, под влиянием кнопки Начать готовить
 class ExecutionSteps extends StatefulWidget {
   final int index;
   final int step;
@@ -151,10 +160,10 @@ class ExecutionSteps extends StatefulWidget {
 class _ExecutionStepsState extends State<ExecutionSteps> {
   @override
   Widget build(BuildContext context) {
-    MyService myService = MyService();
+    Globals globals = Globals();
     bool isSelected =
-        myService.myVariable[widget.index]['steps'][widget.step] ?? false;
-    bool isStarted = myService.myVariable[widget.index]['is_started'] ?? false;
+        globals.myVariable[widget.index]['steps'][widget.step] ?? false;
+    bool isStarted = globals.myVariable[widget.index]['is_started'] ?? false;
 
     return Transform.scale(
       scale: 2,
@@ -174,7 +183,7 @@ class _ExecutionStepsState extends State<ExecutionSteps> {
           if (isStarted) {
             setState(() {
               isSelected = newValue!;
-              myService.myVariable[widget.index]['steps'][widget.step] =
+              globals.myVariable[widget.index]['steps'][widget.step] =
                   isSelected;
             });
           }

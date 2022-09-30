@@ -6,7 +6,8 @@ import 'package:home_work/executionSteps.dart';
 import 'package:home_work/comments.dart';
 import 'configs/recipients.dart';
 import 'configs/ingredients.dart';
-import 'globals.dart';
+
+// Основная карточка рецепта
 
 class RecipeDetailPage extends StatelessWidget {
   final int? index;
@@ -55,8 +56,8 @@ class RecipeDetailPage extends StatelessWidget {
         color: Colors.white,
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 38),
-          // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Заголовок + избранное
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,6 +99,7 @@ class RecipeDetailPage extends StatelessWidget {
                 ],
               ),
             ),
+            // Картинка рецепта основная
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 12),
               child: Container(
@@ -133,7 +135,7 @@ class RecipeDetailPage extends StatelessWidget {
                   width: 3,
                 ),
               ),
-              // список ингредиентов
+              // TODO: список ингредиентов вынести в отдельный виджет
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -208,6 +210,7 @@ class RecipeDetailPage extends StatelessWidget {
                 ],
               ),
             ),
+            //TODO: Кнопка проверки наличия - вынести со списком ингредиентов в отдельный стетфул
             Container(
               padding: const EdgeInsets.symmetric(vertical: 18),
               // child: Expanded(
@@ -217,7 +220,6 @@ class RecipeDetailPage extends StatelessWidget {
                   Container(
                     width: 232,
                     height: 48,
-                    //padding: const EdgeInsets.fromLTRB(12, 12, 8, 12),
                     decoration: BoxDecoration(
                       borderRadius: const BorderRadius.all(Radius.circular(25)),
                       border: Border.all(
@@ -225,7 +227,6 @@ class RecipeDetailPage extends StatelessWidget {
                         width: 3,
                       ),
                     ),
-                    // список ингредиентов
                     child: OutlinedButton(
                       style: ButtonStyle(
                           shape:
@@ -249,6 +250,7 @@ class RecipeDetailPage extends StatelessWidget {
               ),
               // ),
             ),
+            // Шаги приготовления
             const Padding(
               padding: EdgeInsets.fromLTRB(0, 0, 0, 18),
               child: Text(
@@ -260,10 +262,10 @@ class RecipeDetailPage extends StatelessWidget {
                 ),
               ),
             ),
+
             // Шаги приготовления - чекбоксы - Начать готовить
             StartProcess(index: index),
             Comments(index: index),
-            const Text('end')
           ],
         ),
       ),

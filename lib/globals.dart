@@ -2,18 +2,20 @@ import 'configs/recipients.dart';
 
 // Пользовательские настройки - в будующем будут с БД или с Api
 
-class MyService {
-  static final MyService _instance = MyService._internal();
+class Globals {
+  static final Globals _instance = Globals._internal();
 
-  factory MyService() => _instance;
+  factory Globals() => _instance;
 
   // Инициализация
-  MyService._internal() {
+  Globals._internal() {
     _myVariable = recipeList
         .map((value) => {
               'is_favorite': false,
               'is_started': false,
-              'steps': ((value['steps'] ?? []).map((valStep) => false).toList())
+              'steps':
+                  ((value['steps'] ?? []).map((valStep) => false).toList()),
+              'comments': [],
             })
         .toList();
   }

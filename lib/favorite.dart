@@ -16,8 +16,8 @@ class _FavoriteState extends State<Favorite> {
 
   @override
   Widget build(BuildContext context) {
-    MyService myService = MyService();
-    _isSelected = myService.myVariable[widget.index]['is_favorite'] ?? false;
+    Globals globals = Globals();
+    _isSelected = globals.myVariable[widget.index]['is_favorite'] ?? false;
 
     return IconButton(
       padding: const EdgeInsets.symmetric(horizontal: 23),
@@ -26,7 +26,7 @@ class _FavoriteState extends State<Favorite> {
           : 'assets/icons/heart.png'),
       tooltip: 'Избранное',
       onPressed: () {
-        myService.myVariable[widget.index]['is_favorite'] = !_isSelected;
+        globals.myVariable[widget.index]['is_favorite'] = !_isSelected;
         setState(() {});
       },
     );

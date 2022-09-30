@@ -57,6 +57,16 @@ const List<Map<String, dynamic>> recipeList = [
             'Перед подачей полейте соусом из формы и посыпьте кунжутом.'
       },
     ],
+    'comments': [
+      {
+        'date': '25.05.2022',
+        'name': 'anna_obraztsova',
+        'text':
+            'Я не большой любитель рыбы, но решила приготовить по этому рецепту и просто влюбилась!',
+        'image': 'assets/images/comment_image.png',
+        'avatar': 'assets/images/avatar.png',
+      }
+    ]
   },
   {
     'imagePaths': {
@@ -106,8 +116,7 @@ const List<Map<String, dynamic>> recipeList = [
     'title': 'Пицца Маргарита домашняя',
     'time': 25,
     'ingredientsList': [
-
-  {'id': 11, 'count': '300 грам'},
+      {'id': 11, 'count': '300 грам'},
       {'id': 12, 'count': '130 грам'},
       {'id': 13, 'count': '180 грам'},
       {'id': 14, 'count': '1 шт.'},
