@@ -67,30 +67,27 @@ class _StartProcessState extends State<StartProcess> {
                           ),
                         ),
                         Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(20, 0, 30, 0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                ExecutionSteps(
-                                    index: widget.index, step: nextStep++),
-                                Text(
-                                  (value['time'] ?? '0')
-                                      .toString()
-                                      .padLeft(2, '0')
-                                      .padLeft(3, '00:'),
-                                  softWrap: false,
-                                  style: TextStyle(
-                                    height: 0.8,
-                                    fontSize: 13,
-                                    color: isStarted
-                                        ? const Color(0xFF165932)
-                                        : const Color(0xFF797676),
-                                    fontWeight: FontWeight.w700,
-                                  ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              ExecutionSteps(
+                                  index: widget.index, step: nextStep++),
+                              Text(
+                                (value['time'] ?? '0')
+                                    .toString()
+                                    .padLeft(2, '0')
+                                    .padLeft(3, '00:'),
+                                softWrap: false,
+                                style: TextStyle(
+                                  height: 0.8,
+                                  fontSize: 13,
+                                  color: isStarted
+                                      ? const Color(0xFF165932)
+                                      : const Color(0xFF797676),
+                                  fontWeight: FontWeight.w700,
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
