@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:home_work/recipeDetailPage.dart';
+import 'package:home_work/recipe_detail_page.dart';
 import 'package:home_work/recipients_list.dart';
 
 void main() {

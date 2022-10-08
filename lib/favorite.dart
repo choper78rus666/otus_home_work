@@ -20,6 +20,7 @@ class _FavoriteState extends State<Favorite> {
     _isSelected = globals.myVariable[widget.index]['is_favorite'] ?? false;
 
     return IconButton(
+      alignment: Alignment.topCenter,
       padding: const EdgeInsets.symmetric(horizontal: 23),
       icon: Image.asset(_isSelected
           ? 'assets/icons/heart_active.png'

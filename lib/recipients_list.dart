@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'configs/recipients.dart';
-import 'package:home_work/recipeCard.dart';
+import 'package:home_work/recipe_card.dart';
 
 // Вывод списка рецептов
 class RecipeList extends StatelessWidget {

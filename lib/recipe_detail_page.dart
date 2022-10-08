@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:home_work/helpers.dart';
 import 'package:home_work/favorite.dart';
-import 'package:home_work/executionSteps.dart';
+import 'package:home_work/execution_steps.dart';
 import 'package:home_work/comments.dart';
 import 'configs/recipients.dart';
 import 'configs/ingredients.dart';
@@ -55,7 +55,7 @@ class RecipeDetailPage extends StatelessWidget {
       child: Container(
         color: Colors.white,
         child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 38),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 38),
           children: [
             // Заголовок + избранное
             Row(
@@ -77,13 +77,14 @@ class RecipeDetailPage extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 32,
+              height: 20,
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Icon(
                     Icons.access_time,
                     key: UniqueKey(),
-                    size: 16.0,
+                    size: 20.0,
                   ),
                   Container(
                     padding: const EdgeInsets.only(left: 11.0),
@@ -251,7 +252,7 @@ class RecipeDetailPage extends StatelessWidget {
               // ),
             ),
             // Шаги приготовления
-            const Padding(
+            if(recipeList[index]['steps'] != null) ...[const Padding(
               padding: EdgeInsets.fromLTRB(0, 0, 0, 18),
               child: Text(
                 'Шаги приготовления',
@@ -262,9 +263,8 @@ class RecipeDetailPage extends StatelessWidget {
                 ),
               ),
             ),
-
             // Шаги приготовления - чекбоксы - Начать готовить
-            StartProcess(index: index),
+            StartProcess(index: index)],
             Comments(index: index),
           ],
         ),

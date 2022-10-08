@@ -15,7 +15,7 @@ class Globals {
               'is_started': false,
               'steps':
                   ((value['steps'] ?? []).map((valStep) => false).toList()),
-              'comments': [],
+              'comments':  [],
             })
         .toList();
   }
