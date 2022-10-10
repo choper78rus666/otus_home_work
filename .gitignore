@@ -13,3 +13,8 @@
 /.dart_tool/version
 /build/
 /.dart_tool/
+/lib/model/favorite/favorite.g.dart
+/lib/model/ingredient/ingredient.g.dart
+/lib/model/recipe/recipe.g.dart
+/lib/model/recipe_ingredient/recipe_ingredient.g.dart
+/lib/model/recipe_step_link/recipe_step_link.g.dart
