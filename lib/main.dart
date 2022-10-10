@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:home_work/recipe_detail_page.dart';
 import 'package:home_work/recipients_list.dart';
+import 'package:home_work/controller/receiver.dart';
+import 'dart:io';
+
+import 'package:hive/hive.dart';
 
 void main() {
-  runApp(const MyApp());
+  var path = Directory.current.path;
+  Hive.init(path);
+  getHttp();
+  //runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

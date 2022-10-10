@@ -16,19 +16,6 @@ class _CommentState extends State<Comments> {
   final TextEditingController _controller = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-    _controller.addListener(() {
-    });
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     Globals globals = Globals();
     //Прибавляем сохраненное к статитке в конфиге ( потом все будет в БД)
@@ -160,9 +147,7 @@ class _CommentState extends State<Comments> {
                     globals.myVariable[widget.index]['comments']
                         .add(addComment);
                     setState(() {
-                      _controller.value = _controller.value.copyWith(
-                      text: ''
-                    );});
+                      _controller.clear();});
                   },
                   minLines: 2,
                   maxLines: 2,
