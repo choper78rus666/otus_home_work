@@ -5,12 +5,13 @@ import 'package:home_work/model/init.dart';
 import 'dart:io';
 
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-void main() {
-
-  var path = Directory.current.path;
-  print(path);
-  Hive.init(path);
+void main() async {
+  await Hive.initFlutter();
+  //var path = Directory.current.path;
+ // print(path);
+  //Hive.init(path);
   Init().updateData();
   runApp(const MyApp());
 }

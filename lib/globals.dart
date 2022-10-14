@@ -18,11 +18,19 @@ class Globals {
               'comments':  [],
             })
         .toList();
+
+    _data = {
+      'recipeList' : {},
+      'commentList': {}
+    };
   }
 
   List _myVariable = [];
+  Map<String, dynamic> _data = {};
 
   get myVariable => _myVariable;
+  get data => _data;
 
   set myVariable(value) => myVariable = value;
+  set data(value) => data = value;
 }

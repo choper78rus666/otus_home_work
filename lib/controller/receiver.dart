@@ -21,8 +21,6 @@ class DioManager {
         ),
       );
 
-      //print(response.data[0]['name']);
-      //print(response.toString());
     } on DioError catch (e) {
       if (e.response != null) {
         print('Dio error!');
