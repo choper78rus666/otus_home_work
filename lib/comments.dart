@@ -60,7 +60,8 @@ class _CommentState extends State<Comments> {
                           alignment: Alignment.topLeft,
                         ),
                         Expanded(
-                          child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(
                                 height: 30,
@@ -134,20 +135,23 @@ class _CommentState extends State<Comments> {
                 child: TextField(
                   controller: _controller,
                   onSubmitted: (text) {
-                    var currentDay = DateTime.now();
-                    var day = currentDay.day.toString().padLeft(2, '0');
-                    var month = currentDay.month.toString().padLeft(2, '0');
-                    Map<String, String> addComment = {
-                      'date': '$day.$month.${currentDay.year}',
-                      'name': 'this user name',
-                      'text': text,
-                      'image': '',
-                      'avatar': 'assets/images/avatar.png',
-                    };
-                    globals.myVariable[widget.index]['comments']
-                        .add(addComment);
-                    setState(() {
-                      _controller.clear();});
+                    if (text.isNotEmpty) {
+                      var currentDay = DateTime.now();
+                      var day = currentDay.day.toString().padLeft(2, '0');
+                      var month = currentDay.month.toString().padLeft(2, '0');
+                      Map<String, String> addComment = {
+                        'date': '$day.$month.${currentDay.year}',
+                        'name': 'this user name',
+                        'text': text,
+                        'image': '',
+                        'avatar': 'assets/images/avatar.png',
+                      };
+                      globals.myVariable[widget.index]['comments']
+                          .add(addComment);
+                      setState(() {
+                        _controller.clear();
+                      });
+                    }
                   },
                   minLines: 2,
                   maxLines: 2,

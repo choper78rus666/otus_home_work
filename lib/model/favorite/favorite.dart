@@ -14,8 +14,8 @@ class Favorite {
   int id;
 
   @HiveField(1)
-  List<int> recipe;
+  Map<String,int> recipe;
 
   @HiveField(2)
-  List<int> user;
+  Map<String,int> user;
 }

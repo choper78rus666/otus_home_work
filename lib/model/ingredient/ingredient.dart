@@ -1,4 +1,6 @@
 import 'package:hive/hive.dart';
+import 'package:home_work/model/recipe_ingredient/recipe_ingredient.dart';
+import 'package:home_work/model/freezer/freezer.dart';
 
 part 'ingredient.g.dart';
 
@@ -22,8 +24,8 @@ class Ingredient {
   List<int> measureUnit;
 
   @HiveField(3)
-  Map<String, dynamic> recipeIngredients;
+  List<RecipeIngredients> recipeIngredients;
 
   @HiveField(4)
-  Map<String, dynamic> ingredientFreezer;
+  List<Freezer> ingredientFreezer;
 }

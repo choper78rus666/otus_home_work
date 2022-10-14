@@ -1,11 +1,40 @@
 import 'package:dio/dio.dart';
 
-Future<void> getHttp() async {
-  try {
-    var dio = Dio();
-    var response = await dio.get('http://foodapi.dzolotov.tech/recipe');
-    print(response);
-  } catch (e) {
-    print(e);
+class DioManager {
+  dynamic dio;
+
+  DioManager() {
+    dio = Dio();
+    dio.options.baseUrl = "http://foodapi.dzolotov.tech/";
+    dio.options.connectTimeout = 5000;
+    dio.options.receiveTimeout = 5000;
+  }
+
+  getHttp(String path, {String method = 'GET'}) async {
+    Response<dynamic>? response;
+    try {
+      response = await dio.request(
+        path,
+        options: Options(
+          method: method,
+          responseType: ResponseType.json,
+        ),
+      );
+
+      //print(response.data[0]['name']);
+      //print(response.toString());
+    } on DioError catch (e) {
+      if (e.response != null) {
+        print('Dio error!');
+        print('STATUS: ${e.response?.statusCode}');
+        print('DATA: ${e.response?.data}');
+        print('HEADERS: ${e.response?.headers}');
+      } else {
+        print('Error sending request!');
+        print(e.message);
+      }
+    }
+
+    return response;
   }
 }

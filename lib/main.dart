@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:home_work/recipe_detail_page.dart';
 import 'package:home_work/recipients_list.dart';
-import 'package:home_work/controller/receiver.dart';
+import 'package:home_work/model/init.dart';
 import 'dart:io';
 
 import 'package:hive/hive.dart';
 
 void main() {
+
   var path = Directory.current.path;
+  print(path);
   Hive.init(path);
-  getHttp();
-  //runApp(const MyApp());
+  Init().updateData();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

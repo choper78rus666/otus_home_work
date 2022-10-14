@@ -18,8 +18,8 @@ class RecipeStepLink{
   int number;
 
   @HiveField(2)
-  List<int> recipe;
+  Map<String,int> recipe;
 
   @HiveField(3)
-  List<int> step;
+  Map<String,int> step;
 }
