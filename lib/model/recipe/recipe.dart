@@ -5,7 +5,7 @@ import 'package:hive/hive.dart';
 part 'recipe.g.dart';
 
 @HiveType(typeId: 1)
-class Recipe {
+class Recipe extends HiveObject {
   Recipe(
       {required this.id,
       required this.name,
