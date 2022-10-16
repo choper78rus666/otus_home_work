@@ -21,7 +21,7 @@ class Ingredient {
   String name;
 
   @HiveField(2)
-  List<int> measureUnit;
+  Map<String, dynamic> measureUnit;
 
   @HiveField(3)
   List<RecipeIngredients> recipeIngredients;

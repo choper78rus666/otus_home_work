@@ -25,6 +25,6 @@ class Comment {
   String datetime;
 
   @HiveField(4)
-  Map<String, int> user;
+  Map<String, dynamic> user;
 
 }

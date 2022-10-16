@@ -9,9 +9,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
   await Hive.initFlutter();
-  //var path = Directory.current.path;
- // print(path);
-  //Hive.init(path);
   Init().updateData();
   runApp(const MyApp());
 }

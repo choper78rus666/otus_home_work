@@ -21,7 +21,11 @@ class Globals {
 
     _data = {
       'recipeList' : {},
-      'commentList': {}
+      'commentList': {},
+      'ingredientList': {},
+      'measureUnitList': {},
+      'freezerList': {},
+      'favoriteList': {},
     };
   }
 

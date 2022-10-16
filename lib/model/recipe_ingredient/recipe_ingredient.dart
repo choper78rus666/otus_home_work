@@ -18,8 +18,8 @@ class RecipeIngredients {
   int count;
 
   @HiveField(2)
-  Map<String,int> ingredient;
+  Map<String, dynamic> ingredient;
 
   @HiveField(3)
-  Map<String,int> recipe;
+  Map<String, dynamic> recipe;
 }

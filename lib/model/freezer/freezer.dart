@@ -18,8 +18,8 @@ class Freezer {
   int count;
 
   @HiveField(2)
-  Map<String,int> user;
+  Map<String,dynamic> user;
 
   @HiveField(3)
-  Map<String,int> ingredient;
+  Map<String,dynamic> ingredient;
 }
