@@ -26,5 +26,4 @@ class Comment {
 
   @HiveField(4)
   Map<String, dynamic> user;
-
 }

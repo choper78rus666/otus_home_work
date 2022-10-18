@@ -15,12 +15,12 @@ class Globals {
               'is_started': false,
               'steps':
                   ((value['steps'] ?? []).map((valStep) => false).toList()),
-              'comments':  [],
+              'comments': [],
             })
         .toList();
 
     _data = {
-      'recipeList' : {},
+      'recipeList': {},
       'commentList': {},
       'ingredientList': {},
       'measureUnitList': {},
@@ -33,8 +33,10 @@ class Globals {
   Map<String, dynamic> _data = {};
 
   get myVariable => _myVariable;
+
   get data => _data;
 
   set myVariable(value) => myVariable = value;
+
   set data(value) => data = value;
 }

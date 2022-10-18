@@ -4,14 +4,14 @@ import 'package:home_work/model/ingredient/ingredient.dart';
 part 'measure_unit.g.dart';
 
 @HiveType(typeId: 9)
-class MeasureUnit{
+class MeasureUnit {
   MeasureUnit({
     required this.id,
     required this.one,
     required this.few,
     required this.many,
     required this.ingredients,
-});
+  });
 
   @HiveField(0)
   int id;
@@ -27,5 +27,4 @@ class MeasureUnit{
 
   @HiveField(4)
   List<Ingredient> ingredients;
-
 }

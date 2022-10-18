@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:home_work/helpers.dart';
@@ -6,13 +7,15 @@ import 'package:home_work/execution_steps.dart';
 import 'package:home_work/comments.dart';
 import 'configs/recipients.dart';
 import 'configs/ingredients.dart';
+import 'globals.dart';
 
 // Основная карточка рецепта
 
 class RecipeDetailPage extends StatelessWidget {
   final int? index;
+  final Globals globals = Globals();
 
-  const RecipeDetailPage({Key? key, this.index}) : super(key: key);
+  RecipeDetailPage({Key? key, this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +54,8 @@ class RecipeDetailPage extends StatelessWidget {
   }
 
   Widget _buildDetail(BuildContext context, index) {
+    final recipeKeys = globals.data['recipeList'].keys.toList();
+
     return SafeArea(
       child: Container(
         color: Colors.white,
@@ -64,7 +69,7 @@ class RecipeDetailPage extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    recipeList[index]['title'] ?? '',
+                    globals.data['recipeList'][recipeKeys[index]].name ?? '',
                     style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w500,
@@ -89,7 +94,9 @@ class RecipeDetailPage extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.only(left: 11.0),
                     child: Text(
-                      timeToString(recipeList[index]['time'] ?? 0),
+                      timeToString(globals
+                              .data['recipeList'][recipeKeys[index]].duration ??
+                          0),
                       style: const TextStyle(
                         color: Color(0xff2ECC71),
                         fontSize: 16,
@@ -107,12 +114,25 @@ class RecipeDetailPage extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                 ),
-                child: Image.asset(
-                  recipeList[index]['imagePaths']['detail'].toString().isEmpty
-                      ? 'assets/images/no_image.png'
-                      : recipeList[index]['imagePaths']['detail'],
-                  fit: BoxFit.contain,
+                // кешируем картинки
+                child: CachedNetworkImage(
                   width: double.infinity,
+                  height: 220,
+                  key: key,
+                  imageUrl: globals.data['recipeList'][recipeKeys[index]].photo,
+                  imageBuilder: (context, imageProvider) => Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  errorWidget: (context, url, error) => Image.asset(
+                    'assets/images/no_image.png',
+                    fit: BoxFit.contain,
+                    width: double.infinity,
+                  ),
                 ),
               ),
             ),
@@ -141,12 +161,14 @@ class RecipeDetailPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ...(recipeList[index]['ingredientsList'] != null
+                  ...(globals.data['recipeList'][recipeKeys[index]]
+                          .recipeIngredients.isNotEmpty
                       ? [
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              ...(recipeList[index]['ingredientsList']
+                              ...(globals.data['recipeList'][recipeKeys[index]]
+                                  .recipeIngredients
                                   .map(
                                     (value) => SizedBox(
                                       height: 27,
@@ -162,7 +184,10 @@ class RecipeDetailPage extends StatelessWidget {
                                             ),
                                           ),
                                           Text(
-                                            ingredientsList[value['id']],
+                                            globals
+                                                .data['ingredientList']
+                                                    [value.id]
+                                                .name,
                                             style: const TextStyle(
                                               fontSize: 14,
                                               color: Colors.black,
@@ -179,7 +204,9 @@ class RecipeDetailPage extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              ...(recipeList[index]['ingredientsList'].map(
+                              ...(globals.data['recipeList'][recipeKeys[index]]
+                                  .recipeIngredients
+                                  .map(
                                 (value) => SizedBox(
                                   height: 27,
                                   child: Row(
@@ -188,7 +215,32 @@ class RecipeDetailPage extends StatelessWidget {
                                       Text(
                                         value['count'] == ''
                                             ? 'по вкусу'
-                                            : value['count'],
+                                            : convertNumString(value.count, [
+                                                globals
+                                                    .data['measureUnitList'][
+                                                        globals
+                                                            .data[
+                                                                'ingredientList']
+                                                                [value.id]
+                                                            .measureUnit['id']]
+                                                    .one,
+                                                globals
+                                                    .data['measureUnitList'][
+                                                        globals
+                                                            .data[
+                                                                'ingredientList']
+                                                                [value.id]
+                                                            .measureUnit['id']]
+                                                    .few,
+                                                globals
+                                                    .data['measureUnitList'][
+                                                        globals
+                                                            .data[
+                                                                'ingredientList']
+                                                                [value.id]
+                                                            .measureUnit['id']]
+                                                    .many
+                                              ]),
                                         style: const TextStyle(
                                           fontSize: 13,
                                           color: Color(0xFF797676),
@@ -214,7 +266,6 @@ class RecipeDetailPage extends StatelessWidget {
             //TODO: Кнопка проверки наличия - вынести со списком ингредиентов в отдельный стетфул
             Container(
               padding: const EdgeInsets.symmetric(vertical: 18),
-              // child: Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -249,22 +300,23 @@ class RecipeDetailPage extends StatelessWidget {
                   ),
                 ],
               ),
-              // ),
             ),
             // Шаги приготовления
-            if(recipeList[index]['steps'] != null) ...[const Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 0, 18),
-              child: Text(
-                'Шаги приготовления',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Color(0xFF165932),
-                  fontWeight: FontWeight.w500,
+            if (recipeList[index]['steps'] != null) ...[
+              const Padding(
+                padding: EdgeInsets.fromLTRB(0, 0, 0, 18),
+                child: Text(
+                  'Шаги приготовления',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Color(0xFF165932),
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
-            ),
-            // Шаги приготовления - чекбоксы - Начать готовить
-            StartProcess(index: index)],
+              // Шаги приготовления - чекбоксы - Начать готовить
+              StartProcess(index: index)
+            ],
             Comments(index: index),
           ],
         ),

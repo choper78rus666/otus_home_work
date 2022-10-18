@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'configs/recipients.dart';
+import 'package:home_work/model/recipe/recipe.dart';
 import 'package:home_work/recipe_card.dart';
+import 'globals.dart';
 
 // Вывод списка рецептов
 class RecipeList extends StatelessWidget {
-  const RecipeList({Key? key}) : super(key: key);
+  final Globals globals = Globals();
+
+  RecipeList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,13 +18,16 @@ class RecipeList extends StatelessWidget {
   }
 
   Widget _buildList(BuildContext context) {
+    List recipeKeys = globals.data['recipeList'].keys.toList();
+
     return SafeArea(
       child: ListView.builder(
-          padding: const EdgeInsets.fromLTRB(16, 33, 16, 69),
-          itemCount: recipeList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return RecipeCard(index: index, typeCard: 'recipeList');
-          }),
+        padding: const EdgeInsets.fromLTRB(16, 33, 16, 69),
+        itemCount: recipeKeys.length,
+        itemBuilder: (BuildContext context, int index) {
+          return RecipeCard(index: index, typeCard: 'recipeList');
+        },
+      ),
     );
   }
 }

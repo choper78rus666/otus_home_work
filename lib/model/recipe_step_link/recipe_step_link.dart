@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 part 'recipe_step_link.g.dart';
 
 @HiveType(typeId: 5)
-class RecipeStepLink{
+class RecipeStepLink {
   RecipeStepLink({
     required this.id,
     required this.number,
@@ -18,8 +18,8 @@ class RecipeStepLink{
   int number;
 
   @HiveField(2)
-  Map<String,int> recipe;
+  Map<String, int> recipe;
 
   @HiveField(3)
-  Map<String,int> step;
+  Map<String, int> step;
 }

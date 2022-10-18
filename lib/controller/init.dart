@@ -1,3 +1,4 @@
+import 'package:flutter_network_connectivity/flutter_network_connectivity.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:home_work/globals.dart';
@@ -7,15 +8,24 @@ import 'package:home_work/model/freezer/freezer.dart';
 import 'package:home_work/model/ingredient/ingredient.dart';
 import 'package:home_work/model/recipe/recipe.dart';
 import 'package:home_work/model/recipe_ingredient/recipe_ingredient.dart';
-
 import '../model/measure_unit/measure_unit.dart';
 import 'receiver.dart';
 
 // Загрузка, обновление , подготовка работы с данными
 class Init {
+  bool _isNetworkConnectedOnCall = false;
   Globals globals = Globals();
+  FlutterNetworkConnectivity flutterNetworkConnectivity =
+      FlutterNetworkConnectivity(
+    isContinousLookUp: true,
+    // optional, false if you cont want continous lookup
+    lookUpDuration: const Duration(seconds: 3),
+    // optional, to override default lookup duration
+    lookUpUrl:
+        'foodapi.dzolotov.tech', // optional, to override default lookup url
+  );
 
-  updateData() {
+  Future<void> updateData() async {
     // Инициализация адаптеров
     Hive.registerAdapter(RecipeAdapter());
     Hive.registerAdapter(CommentAdapter());
@@ -25,28 +35,33 @@ class Init {
     Hive.registerAdapter(MeasureUnitAdapter());
     Hive.registerAdapter(FavoriteAdapter());
 
+    // Проверка соединения
+    _isNetworkConnectedOnCall =
+        await flutterNetworkConnectivity.isInternetConnectionAvailable();
+
     // Загрузка рецептов
-    _recipeList();
+    await _recipeList();
 
     // Загрузка комментариев
-    _commentList();
+    await _commentList();
 
     // Загрузка ингредиентов
-    _ingredientList();
+    await _ingredientList();
 
     // Загрузка списка мерных измерений
-    _measureUnitList();
+    await _measureUnitList();
 
     // Загрузка продуктов в холодильнике
-    _freezerList();
+    await _freezerList();
 
     // Загрузка избранного
-    _favoriteList();
+    await _favoriteList();
   }
 
   // Загрузка рецептов
-  void _recipeList() async {
-    var result = await DioManager().getHttp('recipe');
+  Future<void> _recipeList() async {
+    var result =
+        _isNetworkConnectedOnCall ? await DioManager().getHttp('recipe') : null;
     var recipeList = await Hive.openBox<Recipe>('recipeList');
 
     // Если нет соединения или не получены данные, загружаем с Hive
@@ -75,8 +90,10 @@ class Init {
   }
 
   // Загрузка комментариев
-  void _commentList() async {
-    var result = await DioManager().getHttp('comment');
+  Future<void> _commentList() async {
+    var result = _isNetworkConnectedOnCall
+        ? await DioManager().getHttp('comment')
+        : null;
     var commentList = await Hive.openBox<Comment>('commentList');
 
     // Если нет соединения или не получены данные, загружаем с Hive
@@ -103,8 +120,10 @@ class Init {
   }
 
   // Загрузка ингредиентов
-  void _ingredientList() async {
-    var result = await DioManager().getHttp('ingredient');
+  Future<void> _ingredientList() async {
+    var result = _isNetworkConnectedOnCall
+        ? await DioManager().getHttp('ingredient')
+        : null;
     var ingredientList = await Hive.openBox<Ingredient>('ingredientList');
 
     // Если нет соединения или не получены данные, загружаем с Hive
@@ -163,8 +182,10 @@ class Init {
   }
 
   // Загрузка списка мерных измерений
-  void _measureUnitList() async {
-    var result = await DioManager().getHttp('measure_unit');
+  Future<void> _measureUnitList() async {
+    var result = _isNetworkConnectedOnCall
+        ? await DioManager().getHttp('measure_unit')
+        : null;
     var measureUnitList = await Hive.openBox<MeasureUnit>('measureUnitList');
 
     // Если нет соединения или не получены данные, загружаем с Hive
@@ -201,8 +222,10 @@ class Init {
   }
 
   // Загрузка продуктов в холодильнике
-  void _freezerList() async {
-    var result = await DioManager().getHttp('freezer');
+  Future<void> _freezerList() async {
+    var result = _isNetworkConnectedOnCall
+        ? await DioManager().getHttp('freezer')
+        : null;
     var freezerList = await Hive.openBox<Freezer>('freezerList');
 
     // Если нет соединения или не получены данные, загружаем с Hive
@@ -228,8 +251,10 @@ class Init {
   }
 
   // Загрузка избранного
-  void _favoriteList() async {
-    var result = await DioManager().getHttp('favorite');
+  Future<void> _favoriteList() async {
+    var result = _isNetworkConnectedOnCall
+        ? await DioManager().getHttp('favorite')
+        : null;
     var favoriteList = await Hive.openBox<Favorite>('favoriteList');
 
     // Если нет соединения или не получены данные, загружаем с Hive

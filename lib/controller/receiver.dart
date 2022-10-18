@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 
+// класс для работы с API
 class DioManager {
   dynamic dio;
 
@@ -20,7 +21,6 @@ class DioManager {
           responseType: ResponseType.json,
         ),
       );
-
     } on DioError catch (e) {
       if (e.response != null) {
         print('Dio error!');

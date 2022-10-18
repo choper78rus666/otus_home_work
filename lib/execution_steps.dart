@@ -76,8 +76,7 @@ class _StartProcessState extends State<StartProcess> {
                                 (value['time'] ?? '0')
                                     .toString()
                                     .padLeft(2, '0')
-                                    .padRight(3, ':00')
-                                ,
+                                    .padRight(3, ':00'),
                                 softWrap: false,
                                 style: TextStyle(
                                   height: 0.8,
