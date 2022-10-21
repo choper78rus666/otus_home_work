@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:home_work/model/recipe/recipe.dart';
-import 'package:home_work/recipe_card.dart';
-import 'globals.dart';
+import 'package:home_work/widgets/recipe_card.dart';
+import '../controller/globals.dart';
 
 // Вывод списка рецептов
 class RecipeList extends StatelessWidget {

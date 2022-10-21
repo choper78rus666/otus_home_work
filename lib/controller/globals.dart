@@ -1,4 +1,4 @@
-import 'configs/recipients.dart';
+import '../configs/recipients.dart';
 
 // Пользовательские настройки - в будующем будут с БД или с Api
 
@@ -9,6 +9,7 @@ class Globals {
 
   // Инициализация
   Globals._internal() {
+    // Статичные данные в конфиге
     _myVariable = recipeList
         .map((value) => {
               'is_favorite': false,
@@ -19,6 +20,7 @@ class Globals {
             })
         .toList();
 
+    // Данные через API
     _data = {
       'recipeList': {},
       'commentList': {},

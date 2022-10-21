@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:home_work/globals.dart';
+import 'package:home_work/controller/globals.dart';
 
 // Виджет добавления в избранное
 class Favorite extends StatefulWidget {

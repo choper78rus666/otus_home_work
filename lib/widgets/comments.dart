@@ -1,6 +1,6 @@
-import 'configs/recipients.dart';
+import '../configs/recipients.dart';
 import 'package:flutter/material.dart';
-import 'package:home_work/globals.dart';
+import 'package:home_work/controller/globals.dart';
 
 // Отображение и ввод комментариев
 class Comments extends StatefulWidget {

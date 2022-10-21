@@ -1,13 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:home_work/helpers.dart';
-import 'package:home_work/favorite.dart';
-import 'package:home_work/execution_steps.dart';
-import 'package:home_work/comments.dart';
-import 'configs/recipients.dart';
-import 'configs/ingredients.dart';
-import 'globals.dart';
+import 'package:home_work/widgets/comments.dart';
+import 'package:home_work/widgets/favorite.dart';
+
+import '../configs/recipients.dart';
+import '../controller/globals.dart';
+import 'execution_steps.dart';
+import 'helpers.dart';
+
 
 // Основная карточка рецепта
 

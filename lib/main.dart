@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:home_work/recipe_detail_page.dart';
-import 'package:home_work/recipients_list.dart';
 import 'package:home_work/controller/init.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:home_work/widgets/recipe_detail_page.dart';
+import 'package:home_work/widgets/recipients_list.dart';
 
-Future<void> main() async {
-  await Hive.initFlutter();
-  final future = Init().updateData();
-  return future.then((_) {
-    runApp(const MyApp());
-  });
+void main() async {
+  await Future.wait([
+    Hive.initFlutter(),
+    Init().updateData(),
+  ]).then((_) => runApp(const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

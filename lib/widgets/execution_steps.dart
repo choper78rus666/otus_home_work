@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:home_work/globals.dart';
-import 'configs/recipients.dart';
+import 'package:home_work/controller/globals.dart';
+import '../configs/recipients.dart';
 
 // Шаги приготовления
 
