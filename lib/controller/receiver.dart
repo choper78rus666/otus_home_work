@@ -4,14 +4,11 @@ import 'package:flutter_network_connectivity/flutter_network_connectivity.dart';
 // класс для работы с API
 class DioManager {
   dynamic dio;
-  FlutterNetworkConnectivity flutterNetworkConnectivity =
+  final FlutterNetworkConnectivity _flutterNetworkConnectivity =
       FlutterNetworkConnectivity(
     isContinousLookUp: true,
-    // optional, false if you cont want continous lookup
     lookUpDuration: const Duration(seconds: 3),
-    // optional, to override default lookup duration
-    lookUpUrl:
-        'foodapi.dzolotov.tech', // optional, to override default lookup url
+    lookUpUrl: 'foodapi.dzolotov.tech',
   );
 
   DioManager() {
@@ -21,16 +18,17 @@ class DioManager {
     dio.options.receiveTimeout = 5000;
   }
 
-  getHttp(String path, {String method = 'GET'}) async {
+  getHttp(String path, {String method = 'GET', dynamic data}) async {
     Response<dynamic>? response;
 
     // Проверка наличия интернета
     bool isNetworkConnectedOnCall =
-        await flutterNetworkConnectivity.isInternetConnectionAvailable();
+        await _flutterNetworkConnectivity.isInternetConnectionAvailable();
 
     if (isNetworkConnectedOnCall) {
       response = await dio.request(
         path,
+        data: data,
         options: Options(
           method: method,
           responseType: ResponseType.json,

@@ -8,7 +8,8 @@ void main() async {
   await Future.wait([
     Hive.initFlutter(),
     Init().updateData(),
-  ]).then((_) => runApp(const MyApp()));
+  ]);
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
