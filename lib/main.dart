@@ -7,7 +7,7 @@ import 'package:home_work/widgets/recipients_list.dart';
 void main() async {
   await Future.wait([
     Hive.initFlutter(),
-    Init().updateData(),
+    Init().loadData(),
   ]);
   runApp(const MyApp());
 }

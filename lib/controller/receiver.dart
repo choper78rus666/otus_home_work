@@ -3,7 +3,7 @@ import 'package:flutter_network_connectivity/flutter_network_connectivity.dart';
 
 // класс для работы с API
 class DioManager {
-  dynamic dio;
+  Dio dio = Dio();
   final FlutterNetworkConnectivity _flutterNetworkConnectivity =
       FlutterNetworkConnectivity(
     isContinousLookUp: true,
@@ -12,7 +12,6 @@ class DioManager {
   );
 
   DioManager() {
-    dio = Dio();
     dio.options.baseUrl = "http://foodapi.dzolotov.tech/";
     dio.options.connectTimeout = 5000;
     dio.options.receiveTimeout = 5000;
