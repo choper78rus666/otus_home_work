@@ -12,6 +12,39 @@ void main() async {
   runApp(const MyApp());
 }
 
+class SlideRightRoute extends PageRouteBuilder {
+  final Widget page;
+
+  SlideRightRoute({required this.page})
+      : super(
+          pageBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+          ) =>
+              page,
+          transitionDuration: const Duration(milliseconds: 800),
+          transitionsBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+            Widget child,
+          ) =>
+              SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).animate(
+              CurvedAnimation(
+                parent: animation,
+                curve: const Cubic(0.18, -0.15, 0.165, 1.25),
+              ),
+            ),
+            child: child,
+          ),
+        );
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -26,10 +59,8 @@ class MyApp extends StatelessWidget {
         if (path[1] == "recipe-detail" &&
             path.length > 2 &&
             path[2].isNotEmpty) {
-          return MaterialPageRoute(
-            builder: (BuildContext context) =>
-                RecipeDetailPage(index: int.parse(path[2])),
-            settings: routeSettings,
+          return SlideRightRoute(
+            page: RecipeDetailPage(index: int.parse(path[2])),
           );
         }
       },
