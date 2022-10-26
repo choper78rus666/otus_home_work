@@ -155,6 +155,15 @@ class ExecutionSteps extends StatefulWidget {
 }
 
 class _ExecutionStepsState extends State<ExecutionSteps> {
+  double scale = 2.0;
+
+  // Анимация нажатия на чекбокс
+  void _changeScale() {
+    setState(() {
+      scale = scale == 2.0 ? 3.0 : 2.0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Globals globals = Globals();
@@ -162,8 +171,10 @@ class _ExecutionStepsState extends State<ExecutionSteps> {
         globals.myVariable[widget.index]['steps'][widget.step] ?? false;
     bool isStarted = globals.myVariable[widget.index]['is_started'] ?? false;
 
-    return Transform.scale(
-      scale: 2,
+    return AnimatedScale(
+      onEnd: () => {if (scale == 3.0) _changeScale()},
+      scale: scale,
+      duration: const Duration(milliseconds: 300),
       child: Checkbox(
         splashRadius: 0,
         shape: const RoundedRectangleBorder(
@@ -175,10 +186,11 @@ class _ExecutionStepsState extends State<ExecutionSteps> {
         activeColor:
             isStarted ? const Color(0xFF165932) : const Color(0xFF797676),
         value: isSelected,
-        tristate: true,
+        //tristate: true,
         onChanged: (bool? newValue) {
           if (isStarted) {
             setState(() {
+              _changeScale();
               isSelected = newValue!;
               globals.myVariable[widget.index]['steps'][widget.step] =
                   isSelected;
