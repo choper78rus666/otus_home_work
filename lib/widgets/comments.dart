@@ -2,6 +2,8 @@ import '../configs/recipients.dart';
 import 'package:flutter/material.dart';
 import 'package:home_work/controller/globals.dart';
 
+import 'camera.dart';
+
 // Отображение и ввод комментариев
 class Comments extends StatefulWidget {
   final int index;
@@ -192,7 +194,7 @@ class _CommentState extends State<Comments> {
                     fit: BoxFit.contain,
                   ),
                   tooltip: 'Загрузить фото',
-                  onPressed: () {},
+                  onPressed:  () => initCamera(context),
                 ),
               ),
             ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:home_work/controller/init.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:home_work/widgets/camera.dart';
 import 'package:home_work/widgets/recipe_detail_page.dart';
 import 'package:home_work/widgets/recipients_list.dart';
 
@@ -61,6 +62,12 @@ class MyApp extends StatelessWidget {
             path[2].isNotEmpty) {
           return SlideRightRoute(
             page: RecipeDetailPage(index: int.parse(path[2])),
+          );
+        }
+
+        if (path[1] == "open-camera") {
+          return SlideRightRoute(
+            page: const CameraApp(),
           );
         }
       },
