@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:home_work/controller/init.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:home_work/widgets/camera.dart';
 import 'package:home_work/widgets/recipe_detail_page.dart';
 import 'package:home_work/widgets/recipients_list.dart';
 
@@ -18,32 +17,31 @@ class SlideRightRoute extends PageRouteBuilder {
 
   SlideRightRoute({required this.page})
       : super(
-          pageBuilder: (
-            BuildContext context,
-            Animation<double> animation,
-            Animation<double> secondaryAnimation,
-          ) =>
-              page,
-          transitionDuration: const Duration(milliseconds: 800),
-          transitionsBuilder: (
-            BuildContext context,
-            Animation<double> animation,
-            Animation<double> secondaryAnimation,
-            Widget child,
-          ) =>
-              SlideTransition(
-            position: Tween<Offset>(
-              begin: const Offset(1, 0),
-              end: Offset.zero,
-            ).animate(
-              CurvedAnimation(
-                parent: animation,
-                curve: const Cubic(0.18, -0.15, 0.165, 1.25),
-              ),
-            ),
-            child: child,
-          ),
-        );
+            pageBuilder: (
+              BuildContext context,
+              Animation<double> animation,
+              Animation<double> secondaryAnimation,
+            ) =>
+                page,
+            transitionDuration: const Duration(milliseconds: 800),
+            transitionsBuilder: (
+              BuildContext context,
+              Animation<double> animation,
+              Animation<double> secondaryAnimation,
+              Widget child,
+            ) =>
+                SlideTransition(
+                  position: Tween<Offset>(
+                    begin: const Offset(1, 0),
+                    end: Offset.zero,
+                  ).animate(
+                    CurvedAnimation(
+                      parent: animation,
+                      curve: const Cubic(0.18, -0.15, 0.165, 1.25),
+                    ),
+                  ),
+                  child: child,
+                ));
 }
 
 class MyApp extends StatelessWidget {
@@ -62,12 +60,6 @@ class MyApp extends StatelessWidget {
             path[2].isNotEmpty) {
           return SlideRightRoute(
             page: RecipeDetailPage(index: int.parse(path[2])),
-          );
-        }
-
-        if (path[1] == "open-camera") {
-          return SlideRightRoute(
-            page: const CameraApp(),
           );
         }
       },
