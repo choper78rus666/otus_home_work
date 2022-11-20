@@ -109,12 +109,18 @@ class _CommentState extends State<Comments> {
                                   //alignment: Alignment.topLeft,
                                   padding: const EdgeInsets.only(
                                       top: 12, bottom: 48),
-                                  child: Image.asset(
-                                    value['image'],
-                                    fit: BoxFit.contain,
-                                    width:
-                                        700, // Максимально растягиваемая ширина
-                                  ),
+                                  child: (value['image'].contains('assets')
+                                      ? Image.asset(
+                                          value['image'],
+                                          fit: BoxFit.contain,
+                                          width: 700,
+                                        )
+                                      : Image.file(
+                                          File(value['image']),
+                                          fit: BoxFit.contain,
+                                          width: 700, // Максимально ширина
+                                          height: 150,
+                                        )),
                                 ),
                               if (value['image'].toString().isEmpty)
                                 const Padding(
@@ -152,16 +158,16 @@ class _CommentState extends State<Comments> {
               Expanded(
                 child: TextField(
                   controller: _controller,
-                  onSubmitted: (text) {
+                  onSubmitted: (text) async {
                     if (text.isNotEmpty) {
                       var currentDay = DateTime.now();
                       var day = currentDay.day.toString().padLeft(2, '0');
                       var month = currentDay.month.toString().padLeft(2, '0');
 
-                      if(widget.photoIcon.isNotEmpty){
-                        //Future<Directory?> appDocDir = getDownloadsDirectory();
-                        print(widget.photoIconName);
-                        widget.photoIcon = saveFile(widget.photoIcon, widget.photoIconName).toString();
+                      // Сохраним локально файл
+                      if (widget.photoIcon.isNotEmpty) {
+                        widget.photoIcon = await saveFile(
+                            widget.photoIcon, widget.photoIconName);
                       }
 
                       Map<String, String> addComment = {
@@ -171,10 +177,13 @@ class _CommentState extends State<Comments> {
                         'image': widget.photoIcon,
                         'avatar': 'assets/images/avatar.png',
                       };
-                      
+
                       globals.myVariable[widget.index]['comments']
                           .add(addComment);
                       setState(() {
+                        // Освобождаем временный файл
+                        widget.photoIcon = '';
+                        widget.photoIconName = '';
                         _controller.clear();
                       });
                     }
@@ -261,12 +270,12 @@ class _CommentState extends State<Comments> {
                                     .pickImage(source: ImageSource.camera);
 
                                 if (photo == null) return;
-                                print('Name --- '+(photo?.name).toString());
+
                                 if (photo.path.isNotEmpty) {
-                                   setState ( (){
-                                     print('Name --- '+(photo?.name).toString());
-                                    widget.photoIcon = (photo?.path).toString();
-                                    widget.photoIconName = (photo?.name).toString();
+                                  setState(() {
+                                    widget.photoIcon = (photo.path).toString();
+                                    widget.photoIconName =
+                                        (photo.name).toString();
                                     Navigator.pop(context);
                                   });
                                 }
@@ -300,9 +309,13 @@ class _CommentState extends State<Comments> {
                               onPressed: () async {
                                 var photo = await ImagePicker()
                                     .pickImage(source: ImageSource.gallery);
-                                if (photo?.path != null) {
+                                if (photo == null) return;
+
+                                if (photo.path.isNotEmpty) {
                                   setState(() {
-                                    widget.photoIcon = (photo?.path).toString();
+                                    widget.photoIcon = (photo.path).toString();
+                                    widget.photoIconName =
+                                        (photo.name).toString();
                                     Navigator.pop(context);
                                   });
                                 }
@@ -374,24 +387,17 @@ class _CommentState extends State<Comments> {
     );
   }
 
-  Future<String> saveFile(filePath, fileName) async {
-
+  // Сохранение вреименного файла в память
+  saveFile(filePath, fileName) async {
+    String pathFile = '';
     File file = File(filePath);
-    print(file.path);
-    final directory = await getApplicationDocumentsDirectory();
-    print('!!!!!!!!!! Create_dir ${directory.path}/assets/cacheFiles/');
-    /*FileSystemEntity.isDirectory('${directory.path}/assets/cacheFiles/').then((isDir) {
-      if (!isDir) {
-        print('!!!!!!!!!! Create_dir ${directory.path}/assets/cacheFiles/');
-        final newDir = File('${directory.path}/assets/cacheFiles/').create(recursive:true);
-        print('New dir : $newDir');
-      }
-      print(file);
 
-    });*/
-    print(fileName);
-    await file.copy('${directory.path}/$fileName');
-    print('${directory.path}/$fileName');
-    return '${directory.path}/$fileName';
+    if (await file.exists()) {
+      final Directory directory = await getApplicationDocumentsDirectory();
+      file.copy('${directory.path}/$fileName');
+      pathFile = '${directory.path}/$fileName';
+    }
+
+    return pathFile;
   }
 }
