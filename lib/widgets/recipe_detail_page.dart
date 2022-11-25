@@ -9,7 +9,6 @@ import '../controller/globals.dart';
 import 'execution_steps.dart';
 import 'helpers.dart';
 
-
 // Основная карточка рецепта
 
 class RecipeDetailPage extends StatelessWidget {
@@ -95,9 +94,7 @@ class RecipeDetailPage extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.only(left: 11.0),
                     child: Text(
-                      timeToString(globals
-                              .data['recipeList'][recipeKeys[index]].duration ??
-                          0),
+                      timeToString(globals.data['recipeList'][recipeKeys[index]].duration ?? 0),
                       style: const TextStyle(
                         color: Color(0xff2ECC71),
                         fontSize: 16,
@@ -162,20 +159,17 @@ class RecipeDetailPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ...(globals.data['recipeList'][recipeKeys[index]]
-                          .recipeIngredients.isNotEmpty
+                  ...(globals.data['recipeList'][recipeKeys[index]].recipeIngredients.isNotEmpty
                       ? [
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              ...(globals.data['recipeList'][recipeKeys[index]]
-                                  .recipeIngredients
+                              ...(globals.data['recipeList'][recipeKeys[index]].recipeIngredients
                                   .map(
                                     (value) => SizedBox(
                                       height: 27,
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.start,
                                         children: [
                                           const Text(
                                             '\u2022',
@@ -185,10 +179,7 @@ class RecipeDetailPage extends StatelessWidget {
                                             ),
                                           ),
                                           Text(
-                                            globals
-                                                .data['ingredientList']
-                                                    [value.id]
-                                                .name,
+                                            globals.data['ingredientList'][value.id].name,
                                             style: const TextStyle(
                                               fontSize: 14,
                                               color: Colors.black,
@@ -205,9 +196,7 @@ class RecipeDetailPage extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              ...(globals.data['recipeList'][recipeKeys[index]]
-                                  .recipeIngredients
-                                  .map(
+                              ...(globals.data['recipeList'][recipeKeys[index]].recipeIngredients.map(
                                 (value) => SizedBox(
                                   height: 27,
                                   child: Row(
@@ -217,30 +206,9 @@ class RecipeDetailPage extends StatelessWidget {
                                         value['count'] == ''
                                             ? 'по вкусу'
                                             : convertNumString(value.count, [
-                                                globals
-                                                    .data['measureUnitList'][
-                                                        globals
-                                                            .data[
-                                                                'ingredientList']
-                                                                [value.id]
-                                                            .measureUnit['id']]
-                                                    .one,
-                                                globals
-                                                    .data['measureUnitList'][
-                                                        globals
-                                                            .data[
-                                                                'ingredientList']
-                                                                [value.id]
-                                                            .measureUnit['id']]
-                                                    .few,
-                                                globals
-                                                    .data['measureUnitList'][
-                                                        globals
-                                                            .data[
-                                                                'ingredientList']
-                                                                [value.id]
-                                                            .measureUnit['id']]
-                                                    .many
+                                                globals.data['measureUnitList'][globals.data['ingredientList'][value.id].measureUnit['id']].one,
+                                                globals.data['measureUnitList'][globals.data['ingredientList'][value.id].measureUnit['id']].few,
+                                                globals.data['measureUnitList'][globals.data['ingredientList'][value.id].measureUnit['id']].many
                                               ]),
                                         style: const TextStyle(
                                           fontSize: 13,
@@ -282,10 +250,9 @@ class RecipeDetailPage extends StatelessWidget {
                     ),
                     child: OutlinedButton(
                       style: ButtonStyle(
-                          shape:
-                              MaterialStateProperty.all(const StadiumBorder()),
-                          minimumSize:
-                              MaterialStateProperty.all(const Size(232, 48))),
+                        shape: MaterialStateProperty.all(const StadiumBorder()),
+                        minimumSize: MaterialStateProperty.all(const Size(232, 48)),
+                      ),
                       child: const Text(
                         "Проверить наличие",
                         style: TextStyle(

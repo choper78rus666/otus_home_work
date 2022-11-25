@@ -55,9 +55,7 @@ class MyApp extends StatelessWidget {
       routes: {'/': (BuildContext context) => RecipeList(key: key)},
       onGenerateRoute: (routeSettings) {
         var path = routeSettings.name.toString().split('/');
-        if (path[1] == "recipe-detail" &&
-            path.length > 2 &&
-            path[2].isNotEmpty) {
+        if (path[1] == "recipe-detail" && path.length > 2 && path[2].isNotEmpty) {
           return SlideRightRoute(
             page: RecipeDetailPage(index: int.parse(path[2])),
           );
