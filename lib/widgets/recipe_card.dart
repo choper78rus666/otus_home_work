@@ -1,7 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:home_work/controller/globals.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+import '../controller/auto_router.gr.dart';
 import 'helpers.dart';
 
 // Виджет карточки в списке рецептов
@@ -114,10 +116,7 @@ class RecipeCard extends StatelessWidget {
               ),
             ),
             // Навигация для перехода в карточку
-            onTap: () => Navigator.pushNamed(
-              context,
-              '/recipe-detail/$index',
-            ),
+            onTap: () => AutoRouter.of(context).push(RecipeDetailPage(index:index))
           );
   }
 }
