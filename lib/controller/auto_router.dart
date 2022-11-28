@@ -1,6 +1,6 @@
 import 'package:auto_route/annotations.dart';
+import 'package:flutter/cupertino.dart';
 
-import '../main.dart';
 import '../widgets/recipe_detail_page.dart';
 import '../widgets/recipients_list.dart';
 
@@ -19,3 +19,19 @@ import '../widgets/recipients_list.dart';
   ],
 )
 class $AppRouter {}
+
+// Анимация перехода
+Widget slideRightRoutes(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+  return SlideTransition(
+    position: Tween<Offset>(
+      begin: const Offset(1, 0),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: animation,
+        curve: const Cubic(0.18, -0.15, 0.165, 1.25),
+      ),
+    ),
+    child: child,
+  );
+}

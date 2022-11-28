@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,9 +28,7 @@ class RecipeDetailPage extends StatelessWidget {
         leading: IconButton(
           padding: const EdgeInsets.all(17.0),
           icon: Image.asset('assets/icons/back.png', width: 24),
-          onPressed: () {
-            Navigator.pushNamed(context, '/');
-          },
+          onPressed: () => context.router.navigateBack(),
           tooltip: 'Назад',
         ),
         title: const Text(

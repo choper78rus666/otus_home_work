@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -10,11 +11,8 @@ import 'package:home_work/controller/globals.dart';
 // Отображение и ввод комментариев
 class Comments extends StatefulWidget {
   final int index;
-  String photoIcon = '';
-  String photoIconName = '';
-  File? pathFile;
 
-  Comments({super.key, required this.index});
+  const Comments({super.key, required this.index});
 
   @override
   State<Comments> createState() => _CommentState();
@@ -22,6 +20,9 @@ class Comments extends StatefulWidget {
 
 class _CommentState extends State<Comments> {
   final TextEditingController _controller = TextEditingController();
+  String photoIcon = '';
+  String photoIconName = '';
+  File? pathFile;
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +49,7 @@ class _CommentState extends State<Comments> {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 0),
                       decoration: BoxDecoration(
-                        border: Border.all(
-                            color: const Color(0xFF797676), width: 1),
+                        border: Border.all(color: const Color(0xFF797676), width: 1),
                       ),
                     ),
                     Container(
@@ -59,9 +59,7 @@ class _CommentState extends State<Comments> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Image.asset(
-                          value['avatar'].toString().isEmpty
-                              ? 'assets/images/no_image.png'
-                              : value['avatar'],
+                          value['avatar'].toString().isEmpty ? 'assets/images/no_image.png' : value['avatar'],
                           height: 63,
                           width: 80,
                           fit: BoxFit.contain,
@@ -75,8 +73,7 @@ class _CommentState extends State<Comments> {
                                 height: 30,
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       (value['name'] ?? ''),
@@ -107,8 +104,7 @@ class _CommentState extends State<Comments> {
                               if (value['image'].toString().isNotEmpty)
                                 Container(
                                   //alignment: Alignment.topLeft,
-                                  padding: const EdgeInsets.only(
-                                      top: 12, bottom: 48),
+                                  padding: const EdgeInsets.only(top: 12, bottom: 48),
                                   child: (value['image'].contains('assets')
                                       ? Image.asset(
                                           value['image'],
@@ -134,11 +130,11 @@ class _CommentState extends State<Comments> {
                   ]))
               .toList())
         ]),
-        if (widget.photoIcon.isNotEmpty)
+        if (photoIcon.isNotEmpty)
           Container(
             padding: const EdgeInsets.only(bottom: 10),
             child: Image.file(
-              File(widget.photoIcon),
+              File(photoIcon),
               fit: BoxFit.contain,
               height: 200,
               width: 300,
@@ -165,25 +161,23 @@ class _CommentState extends State<Comments> {
                       var month = currentDay.month.toString().padLeft(2, '0');
 
                       // Сохраним локально файл
-                      if (widget.photoIcon.isNotEmpty) {
-                        widget.photoIcon = await saveFile(
-                            widget.photoIcon, widget.photoIconName);
+                      if (photoIcon.isNotEmpty) {
+                        photoIcon = await saveFile(photoIcon, photoIconName);
                       }
 
                       Map<String, String> addComment = {
                         'date': '$day.$month.${currentDay.year}',
                         'name': 'this user name',
                         'text': text,
-                        'image': widget.photoIcon,
+                        'image': photoIcon,
                         'avatar': 'assets/images/avatar.png',
                       };
 
-                      globals.myVariable[widget.index]['comments']
-                          .add(addComment);
+                      globals.myVariable[widget.index]['comments'].add(addComment);
                       setState(() {
                         // Освобождаем временный файл
-                        widget.photoIcon = '';
-                        widget.photoIconName = '';
+                        photoIcon = '';
+                        photoIconName = '';
                         _controller.clear();
                       });
                     }
@@ -234,9 +228,7 @@ class _CommentState extends State<Comments> {
                     builder: (BuildContext context) => Container(
                       decoration: const BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(15),
-                            topRight: Radius.circular(15)),
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
                       ),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -266,17 +258,15 @@ class _CommentState extends State<Comments> {
                                 ),
                               ),
                               onPressed: () async {
-                                var photo = await ImagePicker()
-                                    .pickImage(source: ImageSource.camera);
+                                var photo = await ImagePicker().pickImage(source: ImageSource.camera);
 
                                 if (photo == null) return;
 
                                 if (photo.path.isNotEmpty) {
                                   setState(() {
-                                    widget.photoIcon = (photo.path).toString();
-                                    widget.photoIconName =
-                                        (photo.name).toString();
-                                    Navigator.pop(context);
+                                    photoIcon = (photo.path).toString();
+                                    photoIconName = (photo.name).toString();
+                                    context.router.navigateBack();
                                   });
                                 }
                               },
@@ -307,16 +297,14 @@ class _CommentState extends State<Comments> {
                                 ),
                               ),
                               onPressed: () async {
-                                var photo = await ImagePicker()
-                                    .pickImage(source: ImageSource.gallery);
+                                var photo = await ImagePicker().pickImage(source: ImageSource.gallery);
                                 if (photo == null) return;
 
                                 if (photo.path.isNotEmpty) {
                                   setState(() {
-                                    widget.photoIcon = (photo.path).toString();
-                                    widget.photoIconName =
-                                        (photo.name).toString();
-                                    Navigator.pop(context);
+                                    photoIcon = (photo.path).toString();
+                                    photoIconName = (photo.name).toString();
+                                    context.router.navigateBack();
                                   });
                                 }
                               },
@@ -338,8 +326,8 @@ class _CommentState extends State<Comments> {
                             ),
                             onPressed: () async {
                               setState(() {
-                                widget.photoIcon = '';
-                                Navigator.pop(context);
+                                photoIcon = '';
+                                context.router.navigateBack();
                               });
                             },
                           ),
@@ -370,7 +358,7 @@ class _CommentState extends State<Comments> {
                                     fontSize: 16,
                                   ),
                                 ),
-                                onPressed: () => Navigator.pop(context),
+                                onPressed: () => context.router.navigateBack(),
                               ),
                             ),
                           ),

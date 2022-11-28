@@ -30,8 +30,7 @@ class RepositoryIngredient {
             RecipeIngredients recipeIngredient = RecipeIngredients(
               id: valueIngredient['id'],
               count: valueIngredient['count'],
-              ingredient:
-                  valueIngredient['ingredient'] ?? <Map<String, dynamic>>{},
+              ingredient: valueIngredient['ingredient'] ?? <Map<String, dynamic>>{},
               recipe: valueIngredient['recipe'] ?? <Map<String, dynamic>>{},
             );
 
@@ -47,8 +46,7 @@ class RepositoryIngredient {
               id: valueFreezer['id'],
               count: valueFreezer['count'],
               user: valueFreezer['user'] ?? <Map<String, dynamic>>{},
-              ingredient:
-                  valueFreezer['ingredient'] ?? <Map<String, dynamic>>{},
+              ingredient: valueFreezer['ingredient'] ?? <Map<String, dynamic>>{},
             );
 
             ingredientFreezer.add(freezer);

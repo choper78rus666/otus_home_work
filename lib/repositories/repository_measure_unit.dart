@@ -27,8 +27,7 @@ class RepositoryMeasureUnit {
         if (value['ingredients'] != null) {
           value['ingredients'].forEach((valueIngredient) {
             if (globals.data['ingredientList'][valueIngredient['id']] != null) {
-              ingredients
-                  .add(globals.data['ingredientList'][valueIngredient['id']]);
+              ingredients.add(globals.data['ingredientList'][valueIngredient['id']]);
             }
           });
         }

@@ -30,9 +30,7 @@ class _StartProcessState extends State<StartProcess> {
                   padding: const EdgeInsets.symmetric(vertical: 7),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: isStarted
-                          ? const Color.fromARGB(38, 46, 204, 113)
-                          : const Color(0xFFECECEC),
+                      color: isStarted ? const Color.fromARGB(38, 46, 204, 113) : const Color(0xFFECECEC),
                       borderRadius: BorderRadius.circular(5),
                     ),
                     height: 120,
@@ -45,9 +43,7 @@ class _StartProcessState extends State<StartProcess> {
                               (nextStep + 1).toString(),
                               style: TextStyle(
                                 fontSize: 40,
-                                color: isStarted
-                                    ? const Color(0xFF2ECC71)
-                                    : const Color(0xFFC2C2C2),
+                                color: isStarted ? const Color(0xFF2ECC71) : const Color(0xFFC2C2C2),
                                 fontWeight: FontWeight.w900,
                               ),
                             ),
@@ -59,9 +55,7 @@ class _StartProcessState extends State<StartProcess> {
                             value['description'],
                             style: TextStyle(
                               fontSize: 12,
-                              color: isStarted
-                                  ? const Color(0xFF2D490C)
-                                  : const Color(0xFF797676),
+                              color: isStarted ? const Color(0xFF2D490C) : const Color(0xFF797676),
                               fontWeight: FontWeight.w400,
                             ),
                           ),
@@ -70,20 +64,14 @@ class _StartProcessState extends State<StartProcess> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              ExecutionSteps(
-                                  index: widget.index, step: nextStep++),
+                              ExecutionSteps(index: widget.index, step: nextStep++),
                               Text(
-                                (value['time'] ?? '0')
-                                    .toString()
-                                    .padLeft(2, '0')
-                                    .padRight(3, ':00'),
+                                (value['time'] ?? '0').toString().padLeft(2, '0').padRight(3, ':00'),
                                 softWrap: false,
                                 style: TextStyle(
                                   height: 0.8,
                                   fontSize: 13,
-                                  color: isStarted
-                                      ? const Color(0xFF165932)
-                                      : const Color(0xFF797676),
+                                  color: isStarted ? const Color(0xFF165932) : const Color(0xFF797676),
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
@@ -115,18 +103,13 @@ class _StartProcessState extends State<StartProcess> {
               child: OutlinedButton(
                 style: ButtonStyle(
                     shape: MaterialStateProperty.all(const StadiumBorder()),
-                    backgroundColor: MaterialStateProperty.all(isStarted
-                        ? const Color(0xFFFFFFFF)
-                        : const Color(0xFF165932)),
-                    minimumSize:
-                        MaterialStateProperty.all(const Size(232, 48))),
+                    backgroundColor: MaterialStateProperty.all(isStarted ? const Color(0xFFFFFFFF) : const Color(0xFF165932)),
+                    minimumSize: MaterialStateProperty.all(const Size(232, 48))),
                 child: Text(
                   (isStarted ? "Закончить готовить" : "Начать готовить"),
                   style: TextStyle(
                     fontSize: 16,
-                    color: isStarted
-                        ? const Color(0xFF165932)
-                        : const Color(0xFFFFFFFF),
+                    color: isStarted ? const Color(0xFF165932) : const Color(0xFFFFFFFF),
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -167,8 +150,7 @@ class _ExecutionStepsState extends State<ExecutionSteps> {
   @override
   Widget build(BuildContext context) {
     Globals globals = Globals();
-    bool isSelected =
-        globals.myVariable[widget.index]['steps'][widget.step] ?? false;
+    bool isSelected = globals.myVariable[widget.index]['steps'][widget.step] ?? false;
     bool isStarted = globals.myVariable[widget.index]['is_started'] ?? false;
 
     return AnimatedScale(
@@ -177,14 +159,9 @@ class _ExecutionStepsState extends State<ExecutionSteps> {
       duration: const Duration(milliseconds: 300),
       child: Checkbox(
         splashRadius: 0,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(4))),
-        side: BorderSide(
-            color:
-                (isStarted ? const Color(0xFF165932) : const Color(0xFF797676)),
-            width: 3),
-        activeColor:
-            isStarted ? const Color(0xFF165932) : const Color(0xFF797676),
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+        side: BorderSide(color: (isStarted ? const Color(0xFF165932) : const Color(0xFF797676)), width: 3),
+        activeColor: isStarted ? const Color(0xFF165932) : const Color(0xFF797676),
         value: isSelected,
         //tristate: true,
         onChanged: (bool? newValue) {
@@ -192,8 +169,7 @@ class _ExecutionStepsState extends State<ExecutionSteps> {
             setState(() {
               _changeScale();
               isSelected = newValue!;
-              globals.myVariable[widget.index]['steps'][widget.step] =
-                  isSelected;
+              globals.myVariable[widget.index]['steps'][widget.step] = isSelected;
             });
           }
         },

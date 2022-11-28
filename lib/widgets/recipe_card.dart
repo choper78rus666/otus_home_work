@@ -12,8 +12,7 @@ class RecipeCard extends StatelessWidget {
   final String typeCard;
   final int index;
 
-  RecipeCard({Key? key, this.typeCard = 'recipeList', this.index = 0})
-      : super(key: key);
+  RecipeCard({Key? key, this.typeCard = 'recipeList', this.index = 0}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +41,7 @@ class RecipeCard extends StatelessWidget {
                       height: 136,
                       // кешируем картинки
                       child: CachedNetworkImage(
-                        imageUrl:
-                            globals.data['recipeList'][recipeKeys[index]].photo,
+                        imageUrl: globals.data['recipeList'][recipeKeys[index]].photo,
                         imageBuilder: (context, imageProvider) => Container(
                           decoration: BoxDecoration(
                             image: DecorationImage(
@@ -67,9 +65,7 @@ class RecipeCard extends StatelessWidget {
                             SizedBox(
                               height: 52,
                               child: Text(
-                                globals.data['recipeList'][recipeKeys[index]]
-                                        .name ??
-                                    '',
+                                globals.data['recipeList'][recipeKeys[index]].name ?? '',
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
@@ -92,11 +88,7 @@ class RecipeCard extends StatelessWidget {
                                   Container(
                                     padding: const EdgeInsets.only(left: 11.0),
                                     child: Text(
-                                      timeToString(globals
-                                              .data['recipeList']
-                                                  [recipeKeys[index]]
-                                              .duration ??
-                                          0),
+                                      timeToString(globals.data['recipeList'][recipeKeys[index]].duration ?? 0),
                                       style: const TextStyle(
                                         color: Color(0xff2ECC71),
                                         fontSize: 16,
@@ -116,7 +108,6 @@ class RecipeCard extends StatelessWidget {
               ),
             ),
             // Навигация для перехода в карточку
-            onTap: () => AutoRouter.of(context).push(RecipeDetailPage(index:index))
-          );
+            onTap: () => context.router.push(RecipeDetailPage(index: index)));
   }
 }

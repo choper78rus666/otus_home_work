@@ -16,7 +16,6 @@ import '../repositories/repository_recipe.dart';
 
 // Загрузка, обновление , подготовка работы с данными
 class Init {
-
   Future<void> loadData() async {
     // Инициализация адаптеров
     Hive.registerAdapter(RecipeAdapter());
