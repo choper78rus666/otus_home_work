@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:home_work/controller/globals.dart';
+import '../bloc/execution_steps.dart';
 import '../configs/recipients.dart';
 
 // Шаги приготовления
@@ -64,7 +66,10 @@ class _StartProcessState extends State<StartProcess> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              ExecutionSteps(index: widget.index, step: nextStep++),
+                              BlocProvider(
+                                create: (_) => ExecutionStepsCubit(),
+                                child: ExecutionSteps(index: widget.index, step: nextStep++),
+                              ),
                               Text(
                                 (value['time'] ?? '0').toString().padLeft(2, '0').padRight(3, ':00'),
                                 softWrap: false,
@@ -127,52 +132,37 @@ class _StartProcessState extends State<StartProcess> {
 }
 
 // Выводим чекбоксы, под влиянием кнопки Начать готовить
-class ExecutionSteps extends StatefulWidget {
+class ExecutionSteps extends StatelessWidget {
   final int index;
   final int step;
 
   const ExecutionSteps({super.key, required this.index, required this.step});
 
   @override
-  State<ExecutionSteps> createState() => _ExecutionStepsState();
-}
-
-class _ExecutionStepsState extends State<ExecutionSteps> {
-  double scale = 2.0;
-
-  // Анимация нажатия на чекбокс
-  void _changeScale() {
-    setState(() {
-      scale = scale == 2.0 ? 3.0 : 2.0;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     Globals globals = Globals();
-    bool isSelected = globals.myVariable[widget.index]['steps'][widget.step] ?? false;
-    bool isStarted = globals.myVariable[widget.index]['is_started'] ?? false;
+    bool isStarted = globals.myVariable[index]['is_started'] ?? false;
 
-    return AnimatedScale(
-      onEnd: () => {if (scale == 3.0) _changeScale()},
-      scale: scale,
-      duration: const Duration(milliseconds: 300),
-      child: Checkbox(
-        splashRadius: 0,
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
-        side: BorderSide(color: (isStarted ? const Color(0xFF165932) : const Color(0xFF797676)), width: 3),
-        activeColor: isStarted ? const Color(0xFF165932) : const Color(0xFF797676),
-        value: isSelected,
-        //tristate: true,
-        onChanged: (bool? newValue) {
-          if (isStarted) {
-            setState(() {
-              _changeScale();
-              isSelected = newValue!;
-              globals.myVariable[widget.index]['steps'][widget.step] = isSelected;
-            });
-          }
-        },
+    return BlocBuilder<ExecutionStepsCubit, Map<String, dynamic>>(
+      builder: (context, val) => AnimatedScale(
+        onEnd: () => {if (val['scale'] == 3.0) context.read<ExecutionStepsCubit>().executionStepsScale()},
+        scale: val['scale'],
+        duration: const Duration(milliseconds: 300),
+        child: Checkbox(
+          splashRadius: 0,
+          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+          side: BorderSide(color: (isStarted ? const Color(0xFF165932) : const Color(0xFF797676)), width: 3),
+          activeColor: isStarted ? const Color(0xFF165932) : const Color(0xFF797676),
+          value: globals.myVariable[index]['steps'][step],
+          //tristate: true,
+          onChanged: (bool? newValue) {
+            if (isStarted) {
+              globals.myVariable[index]['steps'][step] = newValue;
+              context.read<ExecutionStepsCubit>().executionStepsSelect();
+              context.read<ExecutionStepsCubit>().executionStepsScale();
+            }
+          },
+        ),
       ),
     );
   }
