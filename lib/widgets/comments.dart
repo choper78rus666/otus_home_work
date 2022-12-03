@@ -266,7 +266,7 @@ class _CommentState extends State<Comments> {
                                   setState(() {
                                     photoIcon = (photo.path).toString();
                                     photoIconName = (photo.name).toString();
-                                    context.router.navigateBack();
+                                    context.router.pop(context);
                                   });
                                 }
                               },
@@ -304,7 +304,7 @@ class _CommentState extends State<Comments> {
                                   setState(() {
                                     photoIcon = (photo.path).toString();
                                     photoIconName = (photo.name).toString();
-                                    context.router.navigateBack();
+                                    context.router.pop(context);
                                   });
                                 }
                               },
@@ -327,7 +327,7 @@ class _CommentState extends State<Comments> {
                             onPressed: () async {
                               setState(() {
                                 photoIcon = '';
-                                context.router.navigateBack();
+                                context.router.pop(context);
                               });
                             },
                           ),
@@ -358,7 +358,7 @@ class _CommentState extends State<Comments> {
                                     fontSize: 16,
                                   ),
                                 ),
-                                onPressed: () => context.router.navigateBack(),
+                                onPressed: () => context.router.pop(context),
                               ),
                             ),
                           ),
