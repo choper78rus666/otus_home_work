@@ -1,45 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:home_work/controller/globals.dart';
 import 'package:rive/rive.dart';
 
+import '../bloc/favorite.dart';
+
 // Виджет добавления в избранное
-class Favorite extends StatefulWidget {
+class Favorite extends StatelessWidget {
   final int index;
 
   const Favorite({super.key, required this.index});
 
   @override
-  State<Favorite> createState() => _FavoriteState();
-}
-
-class _FavoriteState extends State<Favorite> {
-  bool _isSelected = false;
-  bool _isAnimated = false;
-
-  @override
   Widget build(BuildContext context) {
     Globals globals = Globals();
-    _isSelected = globals.myVariable[widget.index]['is_favorite'] ?? false;
+    bool isSelected = globals.myVariable[index]['is_favorite'] ?? false;
+    bool isAnimated = false;
 
-    return IconButton(
-      alignment: Alignment.topCenter,
-      padding: const EdgeInsets.symmetric(horizontal: 23),
-      icon: _isSelected
-          ? (_isAnimated // Проверка на запуск анимации, иначе просто иконка
-              ? const RiveAnimation.asset(
-                  'assets/animations/active_heart.riv',
-                  alignment: Alignment.topCenter,
-                  fit: BoxFit.contain,
-                )
-              : Image.asset('assets/icons/heart_active.png'))
-          : Image.asset('assets/icons/heart.png'),
-      tooltip: 'Избранное',
-      onPressed: () {
-        globals.myVariable[widget.index]['is_favorite'] = !_isSelected;
-        setState(() {
-          _isAnimated = true;
-        });
-      },
+    return BlocProvider(
+      create: (_) => FavoriteSelectCubit(isSelected),
+      child: BlocBuilder<FavoriteSelectCubit, bool>(
+        builder: (context, isSelect) => IconButton(
+          alignment: Alignment.topCenter,
+          padding: const EdgeInsets.symmetric(horizontal: 23),
+          icon: isSelect
+              ? (isAnimated // Проверка на запуск анимации, иначе просто иконка
+                  ? const RiveAnimation.asset(
+                      'assets/animations/active_heart.riv',
+                      alignment: Alignment.topCenter,
+                      fit: BoxFit.contain,
+                    )
+                  : Image.asset('assets/icons/heart_active.png'))
+              : Image.asset('assets/icons/heart.png'),
+          tooltip: 'Избранное',
+          onPressed: () {
+            globals.myVariable[index]['is_favorite'] = !isSelect;
+            isAnimated = true;
+            context.read<FavoriteSelectCubit>().favoriteSelect();
+          },
+        ),
+      ),
     );
   }
 }
