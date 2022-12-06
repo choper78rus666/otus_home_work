@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:home_work/widgets/recipe_card.dart';
 import '../controller/globals.dart';
+import 'package:home_work/model/icons/my_icons.dart';
 
 // Вывод списка рецептов
 class RecipeList extends StatelessWidget {
@@ -15,28 +16,61 @@ class RecipeList extends StatelessWidget {
       body: _buildList(context),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-            icon:  Icon(Icons.local_pizza_outlined),
+          BottomNavigationBarItem(
+            backgroundColor: Color(0xFFFFFFFF),
+            icon: Icon(
+              MyIcons.pizzaSlice,
+              size: 18,
+            ),
             label: 'Рецепты',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.business),
+            backgroundColor: Color(0xFFFFFFFF),
+            icon: Icon(
+              MyIcons.refrigerator,
+              size: 18,
+            ),
             label: 'Холодильник',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
+            backgroundColor: Color(0xFFFFFFFF),
+            icon: Icon(
+              MyIcons.heart,
+              size: 18,
+            ),
             label: 'Избранное',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
+            backgroundColor: Color(0xFFFFFFFF),
+            icon: Icon(
+              MyIcons.user,
+              size: 18,
+            ),
             label: 'Профиль',
           ),
         ],
-        currentIndex: 1,
+        currentIndex: 0,
+        showUnselectedLabels: true,
         backgroundColor: const Color(0xFFFFFFFF),
         unselectedItemColor: const Color(0xFFC2C2C2),
         selectedItemColor: const Color(0xFF2ECC71),
-       // onTap: ()=>{},
+        selectedLabelStyle: const TextStyle(
+          color: Color(0xFF2ECC71),
+          fontSize: 10,
+          fontWeight: FontWeight.w400,
+        ),
+        unselectedLabelStyle: const TextStyle(
+          color: Color(0xFFC2C2C2),
+          fontSize: 10,
+          fontWeight: FontWeight.w400,
+        ),
+         onTap: (index){
+          switch(index){
+            case 0:
+            break;
+            default:
+            }
+         },
       ),
     );
   }
@@ -46,7 +80,7 @@ class RecipeList extends StatelessWidget {
 
     return SafeArea(
       child: ListView.builder(
-        padding: const EdgeInsets.fromLTRB(16, 33, 16, 69),
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
         itemCount: recipeKeys.length,
         itemBuilder: (BuildContext context, int index) {
           return RecipeCard(index: index, typeCard: 'recipeList');
