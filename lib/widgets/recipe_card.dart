@@ -108,6 +108,6 @@ class RecipeCard extends StatelessWidget {
               ),
             ),
             // Навигация для перехода в карточку
-            onTap: () => context.router.push(RecipeDetailPage(index: index)));
+            onTap: () => context.router.push(RecipeDetailPageRoute(index: index)));
   }
 }

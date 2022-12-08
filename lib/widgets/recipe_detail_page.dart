@@ -7,6 +7,7 @@ import 'package:home_work/widgets/favorite.dart';
 
 import '../configs/recipients.dart';
 import '../controller/globals.dart';
+import 'bottom_navigation.dart';
 import 'execution_steps.dart';
 import 'helpers.dart';
 
@@ -49,6 +50,7 @@ class RecipeDetailPage extends StatelessWidget {
         ],
       ),
       body: _buildDetail(context, index),
+      bottomNavigationBar: BottomNavigation(pageIndex: 0),
     );
   }
 

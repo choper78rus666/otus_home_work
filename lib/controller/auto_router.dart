@@ -1,6 +1,7 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../widgets/favorite_list.dart';
 import '../widgets/recipe_detail_page.dart';
 import '../widgets/recipients_list.dart';
 
@@ -8,9 +9,10 @@ import '../widgets/recipients_list.dart';
 // @AdaptiveAutoRouter
 // @CustomAutoRouter
 @MaterialAutoRouter(
-  replaceInRouteName: 'recipe,recipe-detail',
+  replaceInRouteName: 'recipe,recipe-is-favorite,recipe-detail',
   routes: <AutoRoute>[
     AutoRoute(page: RecipeList, initial: true),
+    AutoRoute(page: FavoriteList),
     CustomRoute(
       page: RecipeDetailPage,
       durationInMilliseconds: 800,
