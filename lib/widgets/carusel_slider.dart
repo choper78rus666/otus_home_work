@@ -78,7 +78,8 @@ class OpenCarousel extends StatelessWidget {
       backgroundColor: Colors.black,
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.white12,
+          mini:true,
+          backgroundColor: Colors.white30,
           onPressed: () => context.router.pop(),
           child: const Icon(
             Icons.close,
@@ -90,7 +91,7 @@ class OpenCarousel extends StatelessWidget {
           options: CarouselOptions(
             initialPage: index,
             enableInfiniteScroll: false,
-            height: MediaQuery.of(context).size.height,
+            //height: MediaQuery.of(context).size.height,
             viewportFraction: 1,
           ),
           items: imagesList
@@ -100,8 +101,8 @@ class OpenCarousel extends StatelessWidget {
                   child: Center(
                     child: (item.contains('assets')
                         ? SizedBox(
-                            height: double.infinity,
-                            width: double.infinity,
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
                             child: Image.asset(
                               item,
                               fit: BoxFit.contain,
