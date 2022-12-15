@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../controller/globals.dart';
 import '../controller/receiver.dart';
@@ -11,7 +14,8 @@ class RepositoryFreezer {
   // Загрузка продуктов в холодильнике
   Future<void> freezerList() async {
     var result = await dioManager.getHttp('freezer');
-    var freezerList = await Hive.openBox<Freezer>('freezerList');
+    final Directory directory = await getApplicationDocumentsDirectory();
+    var freezerList = await Hive.openBox<Freezer>('freezerList', path: directory.path);
 
     // Если нет соединения или не получены данные, загружаем с Hive
     if (result == null || result.statusCode != 200) {
@@ -23,7 +27,7 @@ class RepositoryFreezer {
       result.data.forEach((value) {
         Freezer freezerData = Freezer(
           id: value['id'],
-          count: value['count'],
+          count: value['count'] ?? 0.0,
           user: value['user'] ?? <Map<String, dynamic>>{},
           ingredient: value['ingredient'] ?? <Map<String, dynamic>>{},
         );

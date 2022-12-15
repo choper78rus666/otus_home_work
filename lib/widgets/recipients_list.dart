@@ -28,7 +28,7 @@ class RecipeList extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
         itemCount: recipeKeys.length,
         itemBuilder: (BuildContext context, int index) {
-          return RecipeCard(index: index, typeCard: 'recipeList');
+          return RecipeCard(index: index, typeCard: 'recipe');
         },
       ),
     );

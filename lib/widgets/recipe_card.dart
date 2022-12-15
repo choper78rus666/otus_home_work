@@ -12,7 +12,7 @@ class RecipeCard extends StatelessWidget {
   final String typeCard;
   final int index;
 
-  RecipeCard({Key? key, this.typeCard = 'recipeList', this.index = 0}) : super(key: key);
+  RecipeCard({Key? key, this.typeCard = 'recipe', this.index = 0}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -108,6 +108,6 @@ class RecipeCard extends StatelessWidget {
               ),
             ),
             // Навигация для перехода в карточку
-            onTap: () => context.router.push(RecipeDetailPageRoute(index: index)));
+            onTap: () => context.router.push(RecipeDetailPageRoute(index: index, typeCard: typeCard)));
   }
 }

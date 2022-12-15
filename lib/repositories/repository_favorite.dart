@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../controller/globals.dart';
 import '../controller/receiver.dart';
@@ -11,7 +14,8 @@ class RepositoryFavorite {
   // Загрузка избранного
   Future<void> favoriteList() async {
     var result = await dioManager.getHttp('favorite');
-    var favoriteList = await Hive.openBox<Favorite>('favoriteList');
+    final Directory directory = await getApplicationDocumentsDirectory();
+    var favoriteList = await Hive.openBox<Favorite>('favoriteList', path: directory.path);
 
     // Если нет соединения или не получены данные, загружаем с Hive
     if (result == null || result.statusCode != 200) {
@@ -23,8 +27,8 @@ class RepositoryFavorite {
       result.data.forEach((value) {
         Favorite favoriteData = Favorite(
           id: value['id'],
-          recipe: value['recipe'] ?? <Map<String, int>>{},
-          user: value['user'] ?? <Map<String, int>>{},
+          recipe: (value['recipe'] as Map).cast<String, int>(),
+          user: (value['user'] as Map).cast<String, int>(),
         );
 
         // Запишем в hive

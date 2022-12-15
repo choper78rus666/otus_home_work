@@ -22,17 +22,17 @@ class FavoriteList extends StatelessWidget {
   Widget _buildList(BuildContext context) {
     List recipeKeys = [];
 
-    for (var value in globals.data['recipeList'].keys.toList()) {
-      if (globals.myVariable[value - 1]['is_favorite'] == true) recipeKeys.add(value - 1);
+    for (int i = 0;  i < globals.data['recipeList'].length; i++) {
+      if (globals.myVariable[i]['is_favorite'] == true) recipeKeys.add(i);
     }
 
-    if (recipeKeys.isNotEmpty && recipeKeys.length > 0) {
+    if (recipeKeys.isNotEmpty) {
       return SafeArea(
         child: ListView.builder(
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
           itemCount: recipeKeys.length,
           itemBuilder: (BuildContext context, int index) {
-            return RecipeCard(index: recipeKeys[index], typeCard: 'recipeList');
+            return RecipeCard(index: recipeKeys[index], typeCard: 'favorite');
           },
         ),
       );

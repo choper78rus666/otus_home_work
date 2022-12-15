@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../controller/globals.dart';
 import '../controller/receiver.dart';
@@ -11,7 +14,8 @@ class RepositoryRecipe {
   // Загрузка рецептов
   Future<void> recipeList() async {
     var result = await dioManager.getHttp('recipe');
-    var recipeList = await Hive.openBox<Recipe>('recipeList');
+    final Directory directory = await getApplicationDocumentsDirectory();
+    var recipeList = await Hive.openBox<Recipe>('recipeList', path: directory.path);
 
     // Если нет соединения или не получены данные, загружаем с Hive
     if (result == null || result.statusCode != 200) {
@@ -26,7 +30,7 @@ class RepositoryRecipe {
           name: "Лосось в соусе терияки",
           duration: 45,
           photo:
-              "https://s3-alpha-sig.figma.com/img/2a02/af01/3e816581720c9245aa5ffaad28e2d128?Expires=1670803200&Signature=c0HgKfIpvH7Rf-DUjO24cC~Khc264KbB5ysl44Rr03j7XsECUlVISdrSNlVo8QSRExwEGcRte2sWNeH7V~QrpDyON8QITXYlVlnGvF-0eLLLOHB8gRBSweOjAFZl~pCMaN~0HvCkbKy-vQ0rrWTINGmlB2zLoH9GtdN3SRhoMruckDKOJTRAmOhQeUnrIE6goKqJgS9oouBWVku4UavBrQqOtmrs3Cdt6vNLV50A~ukL18jvICv~2d5IAshY~0zkkeyHGzYTDNx6bRCZL-Bh-Md3DR-N1vIfioU~L24QOAOuvsmFlhhQD2OwQ1c~rf~oUiwxsCN8ll4xmJrPmOK10w__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA",
+              "https://s3-alpha-sig.figma.com/img/2a02/af01/3e816581720c9245aa5ffaad28e2d128?Expires=1672012800&Signature=K7hW1Ig6Ud94-w0wAVPWJYbRuvItwG35NpCG1XG3vcfg6lln5ZzaiIiut~O4uvyB~2rgKxQCsonQcAjSUmKv3Wck9Wh9Gi1q3chYb7FjDVweDpGAT-~~3CgjMteuWMg-R7EaH4d8taVbd2-GuGiTtk7ihjGKV3AeJ4YvijEMLTjOdnm7hxoLNDMRiBtRuxruXCpaKFYrxIBsM8f2PlXJiogAVAvG6pnR0nhTiMiA4J4YbrCIT6QZCaE171jwkVh8IKHrviZO8S-CYFgd6F0tcIELsw2FFWrL2P5laov1RppBnFUcQlR7Z01ppNCLqGLv7c5ZhSpAemNLlmeiSCXVlA__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4",
           recipeIngredients: [],
           recipeStepLinks: [],
           favoriteRecipes: [],

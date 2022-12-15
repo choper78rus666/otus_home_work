@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../controller/globals.dart';
 import '../controller/receiver.dart';
@@ -13,7 +16,8 @@ class RepositoryIngredient {
   // Загрузка ингредиентов
   Future<void> ingredientList() async {
     var result = await dioManager.getHttp('ingredient');
-    var ingredientList = await Hive.openBox<Ingredient>('ingredientList');
+    final Directory directory = await getApplicationDocumentsDirectory();
+    var ingredientList = await Hive.openBox<Ingredient>('ingredientList', path: directory.path);
 
     // Если нет соединения или не получены данные, загружаем с Hive
     if (result == null || result.statusCode != 200) {

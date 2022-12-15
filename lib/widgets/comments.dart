@@ -4,6 +4,7 @@ import '../configs/recipients.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:home_work/controller/globals.dart';
+import 'carusel_slider.dart';
 import 'custom_bottom_sheet_file_uploads.dart';
 
 // Отображение и ввод комментариев
@@ -30,6 +31,7 @@ class _CommentState extends State<Comments> {
     Globals globals = Globals();
     //Прибавляем сохраненное к статитке в конфиге ( потом все будет в БД)
     final viewComments = [];
+    final viewImages = [];
 
     if (recipeList[widget.index]['comments'] != null) {
       recipeList[widget.index]['comments'].forEach((value) {
@@ -41,11 +43,24 @@ class _CommentState extends State<Comments> {
       viewComments.add(value);
     });
 
+
+    if(viewComments.isNotEmpty) {
+      for (var element in viewComments) {if(element['image'].toString().isNotEmpty) viewImages.add(element['image']);}
+    }
+
     return BlocProvider(
       create: (_) => CommentsFileUploadCubit(),
       child: BlocBuilder<CommentsFileUploadCubit, bool>(
         builder: (context, state) => Column(
           children: [
+          Row(
+          children: [if (viewImages.isNotEmpty) Expanded(child:
+
+      Container(
+      padding: const EdgeInsets.only(bottom: 10),
+        child: CarouselSliderImage(imagesList: viewImages))
+    )
+  ]),
             //TODO: Отзывы - перенести в отдельный виждет
             Column(children: [
               ...(viewComments
@@ -174,6 +189,7 @@ class _CommentState extends State<Comments> {
                           // Сохраним локально файл
                           if (customBottomSheet.photoIcon.isNotEmpty) {
                             photoIcon = await customBottomSheet.saveFile();
+                            viewImages.add(photoIcon);
                           }
                           Map<String, String> addComment = {
                             'date': '$day.$month.${currentDay.year}',

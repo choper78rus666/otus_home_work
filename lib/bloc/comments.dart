@@ -6,3 +6,10 @@ class CommentsFileUploadCubit extends Cubit<bool> {
 
   void changeState()async => emit(!state);
 }
+
+// Просмотр картинок пользователей
+class ViewImageSlide extends Cubit<bool> {
+  ViewImageSlide() : super(false);
+
+  void changeImage() async => emit(!state);
+}

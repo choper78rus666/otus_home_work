@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../controller/globals.dart';
 import '../controller/receiver.dart';
@@ -11,7 +14,8 @@ class RepositoryComment {
   // Загрузка комментариев
   Future<void> commentList() async {
     var result = await dioManager.getHttp('comment');
-    var commentList = await Hive.openBox<Comment>('commentList');
+    final Directory directory = await getApplicationDocumentsDirectory();
+    var commentList = await Hive.openBox<Comment>('commentList', path: directory.path);
 
     // Если нет соединения или не получены данные, загружаем с Hive
     if (result == null || result.statusCode != 200) {
@@ -24,7 +28,7 @@ class RepositoryComment {
         Comment commentData = Comment(
           id: value['id'],
           text: value['text'],
-          photo: value['photo'],
+          photo: value['photo'] ?? '',
           datetime: value['datetime'],
           user: value['user'] ?? <Map<String, dynamic>>{},
         );

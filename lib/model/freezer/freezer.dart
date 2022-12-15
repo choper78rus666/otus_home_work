@@ -15,7 +15,7 @@ class Freezer {
   int id;
 
   @HiveField(1)
-  int count;
+  double count;
 
   @HiveField(2)
   Map<String, dynamic> user;

@@ -53,6 +53,7 @@ class AppRouter extends _i4.RootStackRouter {
         child: _i3.RecipeDetailPage(
           key: args.key,
           index: args.index,
+          typeCard: args.typeCard,
         ),
         transitionsBuilder: _i6.slideRightRoutes,
         durationInMilliseconds: 800,
@@ -144,12 +145,14 @@ class RecipeDetailPageRoute
   RecipeDetailPageRoute({
     _i7.Key? key,
     int? index,
+    String typeCard = 'recipe',
   }) : super(
           RecipeDetailPageRoute.name,
           path: '/recipe-detail-page',
           args: RecipeDetailPageRouteArgs(
             key: key,
             index: index,
+            typeCard: typeCard,
           ),
         );
 
@@ -160,14 +163,17 @@ class RecipeDetailPageRouteArgs {
   const RecipeDetailPageRouteArgs({
     this.key,
     this.index,
+    this.typeCard = 'recipe',
   });
 
   final _i7.Key? key;
 
   final int? index;
 
+  final String typeCard;
+
   @override
   String toString() {
-    return 'RecipeDetailPageRouteArgs{key: $key, index: $index}';
+    return 'RecipeDetailPageRouteArgs{key: $key, index: $index, typeCard: $typeCard}';
   }
 }

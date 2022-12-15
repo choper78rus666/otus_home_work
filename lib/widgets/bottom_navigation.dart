@@ -2,8 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:home_work/model/icons/my_icons.dart';
 
-import '../controller/auto_router.gr.dart';
-
 // Навигация
 class BottomNavigation extends StatelessWidget {
   final int pageIndex;

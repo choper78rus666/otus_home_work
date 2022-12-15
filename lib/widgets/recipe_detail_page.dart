@@ -16,8 +16,9 @@ import 'helpers.dart';
 class RecipeDetailPage extends StatelessWidget {
   final int? index;
   final Globals globals = Globals();
+  final String typeCard;
 
-  RecipeDetailPage({Key? key, this.index}) : super(key: key);
+  RecipeDetailPage({Key? key, this.index, this.typeCard = 'recipe'}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +51,7 @@ class RecipeDetailPage extends StatelessWidget {
         ],
       ),
       body: _buildDetail(context, index),
-      bottomNavigationBar: BottomNavigation(pageIndex: 0),
+      bottomNavigationBar: BottomNavigation(pageIndex: typeCard == 'favorite' ? 2 : 0),
     );
   }
 
