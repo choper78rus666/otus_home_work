@@ -89,6 +89,7 @@ class OpenCarousel extends StatelessWidget {
       body: Center(
         child: CarouselSlider(
           options: CarouselOptions(
+            height: MediaQuery.of(context).size.height,
             initialPage: index,
             enableInfiniteScroll: false,
             //height: MediaQuery.of(context).size.height,
@@ -112,7 +113,7 @@ class OpenCarousel extends StatelessWidget {
                             ))
                         : Image.file(
                             File(item),
-                            fit: BoxFit.cover,
+                            fit: BoxFit.contain,
                             width: MediaQuery.of(context).size.width,
                             height: MediaQuery.of(context).size.height,
                           )),
