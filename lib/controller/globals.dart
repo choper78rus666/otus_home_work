@@ -27,6 +27,10 @@ class Globals {
       'measureUnitList': {},
       'freezerList': {},
       'favoriteList': {},
+      'auth': {
+        'status': false,
+        'page': 'auth'
+      }
     };
   }
 

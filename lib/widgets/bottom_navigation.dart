@@ -2,23 +2,27 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:home_work/model/icons/my_icons.dart';
 
+import '../controller/globals.dart';
+
 // Навигация
 class BottomNavigation extends StatelessWidget {
   final int pageIndex;
+  final Globals global = Globals();
   final List pages = [
     '/',
-    '/freezer',
-    '/favorite-list',
-    '/auth'
+    '/freezer-page',
+    '/favorite-list-page',
+    '/auth-page',
   ];
 
   BottomNavigation({Key? key, this.pageIndex = 0}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return  BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
+
+    return BottomNavigationBar(
+        items: <BottomNavigationBarItem>[
+          const BottomNavigationBarItem(
             backgroundColor: Color(0xFFFFFFFF),
             icon: Icon(
               MyIcons.pizzaSlice,
@@ -26,7 +30,7 @@ class BottomNavigation extends StatelessWidget {
             ),
             label: 'Рецепты',
           ),
-          BottomNavigationBarItem(
+          if(global.data['auth']['status']) const BottomNavigationBarItem(
             backgroundColor: Color(0xFFFFFFFF),
             icon: Icon(
               MyIcons.refrigerator,
@@ -34,7 +38,7 @@ class BottomNavigation extends StatelessWidget {
             ),
             label: 'Холодильник',
           ),
-          BottomNavigationBarItem(
+          if(global.data['auth']['status']) const BottomNavigationBarItem(
             backgroundColor: Color(0xFFFFFFFF),
             icon: Icon(
               MyIcons.heart,
@@ -43,13 +47,13 @@ class BottomNavigation extends StatelessWidget {
             label: 'Избранное',
           ),
           BottomNavigationBarItem(
-            backgroundColor: Color(0xFFFFFFFF),
-            icon: Icon(
+            backgroundColor: const Color(0xFFFFFFFF),
+            icon: const Icon(
               MyIcons.user,
               size: 18,
             ),
-            label: 'Профиль',
-          ),
+            label: global.data['auth']['status'] ? 'Профиль' : 'Вход',
+          )
         ],
         currentIndex: pageIndex,
         showUnselectedLabels: true,
@@ -67,6 +71,8 @@ class BottomNavigation extends StatelessWidget {
           fontWeight: FontWeight.w400,
         ),
         onTap: (index){
+
+          if(!global.data['auth']['status'] && index == 1) index = 3;
 
           if(index != pageIndex){
               context.router.navigateNamed(pages[index]);
