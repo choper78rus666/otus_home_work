@@ -4,7 +4,7 @@ import '../configs/recipients.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:home_work/controller/globals.dart';
-import 'carusel_slider.dart';
+import 'carousel_slider.dart';
 import 'custom_bottom_sheet_file_uploads.dart';
 
 // Отображение и ввод комментариев
@@ -45,8 +45,9 @@ class _CommentState extends State<Comments> {
 
     if (viewComments.isNotEmpty) {
       for (var element in viewComments) {
-        if (element['image'].toString().isNotEmpty)
+        if (element['image'].toString().isNotEmpty) {
           viewImages.add(element['image']);
+        }
       }
     }
 
