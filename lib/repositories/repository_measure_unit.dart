@@ -16,7 +16,8 @@ class RepositoryMeasureUnit {
   Future<void> measureUnitList() async {
     var result = await dioManager.getHttp('measure_unit');
     final Directory directory = await getApplicationDocumentsDirectory();
-    var measureUnitList = await Hive.openBox<MeasureUnit>('measureUnitList', path: directory.path);
+    var measureUnitList = await Hive.openBox<MeasureUnit>('measureUnitList',
+        path: directory.path);
 
     // Если нет соединения или не получены данные, загружаем с Hive
     if (result == null || result.statusCode != 200) {
@@ -31,7 +32,8 @@ class RepositoryMeasureUnit {
         if (value['ingredients'] != null) {
           value['ingredients'].forEach((valueIngredient) {
             if (globals.data['ingredientList'][valueIngredient['id']] != null) {
-              ingredients.add(globals.data['ingredientList'][valueIngredient['id']]);
+              ingredients
+                  .add(globals.data['ingredientList'][valueIngredient['id']]);
             }
           });
         }

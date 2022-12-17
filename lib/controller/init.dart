@@ -12,6 +12,7 @@ import 'package:home_work/repositories/repository_freezer.dart';
 import 'package:home_work/repositories/repository_ingredient.dart';
 import 'package:home_work/repositories/repository_measure_unit.dart';
 import '../model/measure_unit/measure_unit.dart';
+import '../model/user/user.dart';
 import '../repositories/repository_recipe.dart';
 
 // Загрузка, обновление , подготовка работы с данными
@@ -25,6 +26,7 @@ class Init {
     Hive.registerAdapter(FreezerAdapter());
     Hive.registerAdapter(MeasureUnitAdapter());
     Hive.registerAdapter(FavoriteAdapter());
+    Hive.registerAdapter(UserAdapter());
 
     await Future.wait([
       // Загрузка рецептов

@@ -15,7 +15,8 @@ class RepositoryFreezer {
   Future<void> freezerList() async {
     var result = await dioManager.getHttp('freezer');
     final Directory directory = await getApplicationDocumentsDirectory();
-    var freezerList = await Hive.openBox<Freezer>('freezerList', path: directory.path);
+    var freezerList =
+        await Hive.openBox<Freezer>('freezerList', path: directory.path);
 
     // Если нет соединения или не получены данные, загружаем с Hive
     if (result == null || result.statusCode != 200) {

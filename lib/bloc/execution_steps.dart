@@ -9,7 +9,10 @@ class ExecutionStepsCubit extends Cubit<Map<String, dynamic>> {
   }
 
   void executionStepsScale() {
-    emit({'scale': (state['scale'] == 2.0 ? 3.0 : 2.0), 'isSelected': state['isSelected']});
+    emit({
+      'scale': (state['scale'] == 2.0 ? 3.0 : 2.0),
+      'isSelected': state['isSelected']
+    });
   }
 }
 

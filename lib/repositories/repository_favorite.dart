@@ -15,7 +15,8 @@ class RepositoryFavorite {
   Future<void> favoriteList() async {
     var result = await dioManager.getHttp('favorite');
     final Directory directory = await getApplicationDocumentsDirectory();
-    var favoriteList = await Hive.openBox<Favorite>('favoriteList', path: directory.path);
+    var favoriteList =
+        await Hive.openBox<Favorite>('favoriteList', path: directory.path);
 
     // Если нет соединения или не получены данные, загружаем с Hive
     if (result == null || result.statusCode != 200) {

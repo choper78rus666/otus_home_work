@@ -15,7 +15,8 @@ class RepositoryComment {
   Future<void> commentList() async {
     var result = await dioManager.getHttp('comment');
     final Directory directory = await getApplicationDocumentsDirectory();
-    var commentList = await Hive.openBox<Comment>('commentList', path: directory.path);
+    var commentList =
+        await Hive.openBox<Comment>('commentList', path: directory.path);
 
     // Если нет соединения или не получены данные, загружаем с Hive
     if (result == null || result.statusCode != 200) {

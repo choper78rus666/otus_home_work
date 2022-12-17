@@ -25,7 +25,8 @@ import '../widgets/recipients_list.dart';
 class $AppRouter {}
 
 // Анимация перехода
-Widget slideRightRoutes(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+Widget slideRightRoutes(BuildContext context, Animation<double> animation,
+    Animation<double> secondaryAnimation, Widget child) {
   return SlideTransition(
     position: Tween<Offset>(
       begin: const Offset(1, 0),

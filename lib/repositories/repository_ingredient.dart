@@ -17,7 +17,8 @@ class RepositoryIngredient {
   Future<void> ingredientList() async {
     var result = await dioManager.getHttp('ingredient');
     final Directory directory = await getApplicationDocumentsDirectory();
-    var ingredientList = await Hive.openBox<Ingredient>('ingredientList', path: directory.path);
+    var ingredientList =
+        await Hive.openBox<Ingredient>('ingredientList', path: directory.path);
 
     // Если нет соединения или не получены данные, загружаем с Hive
     if (result == null || result.statusCode != 200) {
@@ -34,7 +35,8 @@ class RepositoryIngredient {
             RecipeIngredients recipeIngredient = RecipeIngredients(
               id: valueIngredient['id'],
               count: valueIngredient['count'],
-              ingredient: valueIngredient['ingredient'] ?? <Map<String, dynamic>>{},
+              ingredient:
+                  valueIngredient['ingredient'] ?? <Map<String, dynamic>>{},
               recipe: valueIngredient['recipe'] ?? <Map<String, dynamic>>{},
             );
 
@@ -50,7 +52,8 @@ class RepositoryIngredient {
               id: valueFreezer['id'],
               count: valueFreezer['count'],
               user: valueFreezer['user'] ?? <Map<String, dynamic>>{},
-              ingredient: valueFreezer['ingredient'] ?? <Map<String, dynamic>>{},
+              ingredient:
+                  valueFreezer['ingredient'] ?? <Map<String, dynamic>>{},
             );
 
             ingredientFreezer.add(freezer);

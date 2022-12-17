@@ -136,8 +136,7 @@ class StartProcess extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                      globals.myVariable[index]['is_started'] =
-                          !isStarted;
+                      globals.myVariable[index]['is_started'] = !isStarted;
                       nextStep = 0;
                       context
                           .read<ExecutionStepsStartCubit>()

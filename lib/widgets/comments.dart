@@ -43,9 +43,11 @@ class _CommentState extends State<Comments> {
       viewComments.add(value);
     });
 
-
-    if(viewComments.isNotEmpty) {
-      for (var element in viewComments) {if(element['image'].toString().isNotEmpty) viewImages.add(element['image']);}
+    if (viewComments.isNotEmpty) {
+      for (var element in viewComments) {
+        if (element['image'].toString().isNotEmpty)
+          viewImages.add(element['image']);
+      }
     }
 
     return BlocProvider(
@@ -53,14 +55,13 @@ class _CommentState extends State<Comments> {
       child: BlocBuilder<CommentsFileUploadCubit, bool>(
         builder: (context, state) => Column(
           children: [
-          Row(
-          children: [if (viewImages.isNotEmpty) Expanded(child:
-
-      Container(
-      padding: const EdgeInsets.only(bottom: 10),
-        child: CarouselSliderImage(imagesList: viewImages))
-    )
-  ]),
+            Row(children: [
+              if (viewImages.isNotEmpty)
+                Expanded(
+                    child: Container(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: CarouselSliderImage(imagesList: viewImages)))
+            ]),
             //TODO: Отзывы - перенести в отдельный виждет
             Column(children: [
               ...(viewComments
@@ -193,7 +194,7 @@ class _CommentState extends State<Comments> {
                           }
                           Map<String, String> addComment = {
                             'date': '$day.$month.${currentDay.year}',
-                            'name': 'this user name',
+                            'name': globals.data['auth']['user_name'],
                             'text': text,
                             'image': photoIcon,
                             'avatar': 'assets/images/avatar.png',

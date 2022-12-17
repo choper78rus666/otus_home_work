@@ -15,7 +15,8 @@ class RepositoryRecipe {
   Future<void> recipeList() async {
     var result = await dioManager.getHttp('recipe');
     final Directory directory = await getApplicationDocumentsDirectory();
-    var recipeList = await Hive.openBox<Recipe>('recipeList', path: directory.path);
+    var recipeList =
+        await Hive.openBox<Recipe>('recipeList', path: directory.path);
 
     // Если нет соединения или не получены данные, загружаем с Hive
     if (result == null || result.statusCode != 200) {

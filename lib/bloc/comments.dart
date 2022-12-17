@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class CommentsFileUploadCubit extends Cubit<bool> {
   CommentsFileUploadCubit() : super(false);
 
-  void changeState()async => emit(!state);
+  void changeState() async => emit(!state);
 }
 
 // Просмотр картинок пользователей

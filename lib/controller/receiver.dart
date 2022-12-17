@@ -5,7 +5,8 @@ import 'package:flutter_network_connectivity/flutter_network_connectivity.dart';
 // класс для работы с API
 class DioManager {
   Dio dio = Dio();
-  final FlutterNetworkConnectivity _flutterNetworkConnectivity = FlutterNetworkConnectivity(
+  final FlutterNetworkConnectivity _flutterNetworkConnectivity =
+      FlutterNetworkConnectivity(
     isContinousLookUp: true,
     lookUpDuration: const Duration(seconds: 3),
     lookUpUrl: 'foodapi.dzolotov.tech',
@@ -21,7 +22,8 @@ class DioManager {
     Response<dynamic>? response;
 
     // Проверка наличия интернета
-    bool isNetworkConnectedOnCall = await _flutterNetworkConnectivity.isInternetConnectionAvailable();
+    bool isNetworkConnectedOnCall =
+        await _flutterNetworkConnectivity.isInternetConnectionAvailable();
     try {
       if (isNetworkConnectedOnCall) {
         response = await dio.request(

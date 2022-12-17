@@ -11,7 +11,7 @@
 ///      fonts:
 ///       - asset: fonts/MyIcons.ttf
 ///
-/// 
+///
 /// * Web Symbols, Copyright (c) 2011 by Just Be Nice studio. All rights reserved.
 ///         Author:    Just Be Nice studio
 ///         License:   SIL (http://scripts.sil.org/OFL)
@@ -29,8 +29,12 @@ class MyIcons {
   static const _kFontFam = 'MyIcons';
   static const String? _kFontPkg = null;
 
-  static const IconData refrigerator = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData heart = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData user = IconData(0xf007, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData pizzaSlice = IconData(0xf818, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData refrigerator =
+      IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData heart =
+      IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData user =
+      IconData(0xf007, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData pizzaSlice =
+      IconData(0xf818, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

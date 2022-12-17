@@ -22,7 +22,7 @@ class FavoriteList extends StatelessWidget {
   Widget _buildList(BuildContext context) {
     List recipeKeys = [];
 
-    for (int i = 0;  i < globals.data['recipeList'].length; i++) {
+    for (int i = 0; i < globals.data['recipeList'].length; i++) {
       if (globals.myVariable[i]['is_favorite'] == true) recipeKeys.add(i);
     }
 

@@ -39,7 +39,8 @@ class CarouselSliderImage extends StatelessWidget {
                       Navigator.of(context).push(_createRoute(index));
                     },
                     child: (imagesList[index].contains('assets')
-                        ? Image.asset(imagesList[index], fit: BoxFit.cover, width: 80, height: 45)
+                        ? Image.asset(imagesList[index],
+                            fit: BoxFit.cover, width: 80, height: 45)
                         : Image.file(
                             File(imagesList[index]),
                             fit: BoxFit.cover,
@@ -57,7 +58,8 @@ class CarouselSliderImage extends StatelessWidget {
 
   Route _createRoute(index) {
     return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => OpenCarousel(index: index, imagesList: imagesList),
+      pageBuilder: (context, animation, secondaryAnimation) =>
+          OpenCarousel(index: index, imagesList: imagesList),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return child;
       },
@@ -78,7 +80,7 @@ class OpenCarousel extends StatelessWidget {
       backgroundColor: Colors.black,
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       floatingActionButton: FloatingActionButton(
-          mini:true,
+          mini: true,
           backgroundColor: Colors.white30,
           onPressed: () => context.router.pop(),
           child: const Icon(
@@ -102,8 +104,8 @@ class OpenCarousel extends StatelessWidget {
                   child: Center(
                     child: (item.contains('assets')
                         ? SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height,
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height,
                             child: Image.asset(
                               item,
                               fit: BoxFit.contain,
