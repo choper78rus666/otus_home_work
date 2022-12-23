@@ -11,10 +11,10 @@ class BottomNavigation extends StatelessWidget {
   final int pageIndex;
   final Globals global = Globals();
   final List pages = [
-    '/',
+    '/recipe',
     '/freezer-page',
     '/favorite-list',
-    '/auth-page',
+    '/auth',
   ];
 
   BottomNavigation({Key? key, this.pageIndex = 0}) : super(key: key);
@@ -25,6 +25,7 @@ class BottomNavigation extends StatelessWidget {
       create: (_) => StateAuthPageCubit(),
       child: BlocBuilder<StateAuthPageCubit, bool>(
         builder: (context, authState) => BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
           items: <BottomNavigationBarItem>[
             const BottomNavigationBarItem(
               backgroundColor: Color(0xFFFFFFFF),

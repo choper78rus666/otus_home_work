@@ -52,8 +52,8 @@ class RecipeDetailPage extends StatelessWidget {
         ],
       ),
       body: _buildDetail(context, index),
-      bottomNavigationBar:
-          BottomNavigation(pageIndex: typeCard == 'favorite' ? 2 : 0),
+      //bottomNavigationBar:
+      //    BottomNavigation(pageIndex: typeCard == 'favorite' ? 2 : 0),
     );
   }
 
@@ -82,7 +82,7 @@ class RecipeDetailPage extends StatelessWidget {
                   ),
                 ),
                 // Избранное
-                Favorite(index: index),
+                if(globals.data['auth']['status']) Favorite(index: index),
               ],
             ),
             SizedBox(

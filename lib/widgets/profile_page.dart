@@ -52,7 +52,7 @@ class ProfilePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 61),
                 Container(
-                  width: 396,
+                  width: MediaQuery.of(context).size.width > 396 ? 396 : MediaQuery.of(context).size.width - 40,
                   height: 56,
                   decoration: const BoxDecoration(
                     color: Colors.white,
@@ -92,7 +92,7 @@ class ProfilePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 Container(
-                  width: 396,
+                  width: MediaQuery.of(context).size.width > 396 ? 396 : MediaQuery.of(context).size.width - 40,
                   height: 56,
                   decoration: const BoxDecoration(
                     boxShadow: [

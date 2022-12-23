@@ -8,8 +8,8 @@ class StateAuthPageCubit extends Cubit<bool> {
 }
 
 // Переключение вход / logout
-class IsAuthCubit extends Cubit<bool> {
-  IsAuthCubit() : super(true);
+class StateAuthUserCubit extends Cubit<bool> {
+  StateAuthUserCubit() : super(true);
 
   void changeState() async => emit(!state);
 }

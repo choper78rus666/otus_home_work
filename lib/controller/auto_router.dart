@@ -10,23 +10,35 @@ import '../widgets/recipients_list.dart';
 // @AdaptiveAutoRouter
 // @CustomAutoRouter
 @MaterialAutoRouter(
-  replaceInRouteName: 'recipe,favorite-list,recipe-detail,auth',
   routes: <AutoRoute>[
-    AutoRoute(page: RecipeList, initial: true),
-    AutoRoute(page: FavoriteList),
-    CustomRoute(
-      page: RecipeDetailPage,
-      durationInMilliseconds: 800,
-      transitionsBuilder: slideRightRoutes,
+    AutoRoute(
+      page: RecipeList,
+      initial: true,
+      path: '/recipe',
     ),
-    AutoRoute(page: AuthPage),
+    AutoRoute(
+      page: FavoriteList,
+      path: '/favorite-list',
+      children: [
+        CustomRoute(
+          page: RecipeDetailPage,
+          durationInMilliseconds: 800,
+          transitionsBuilder: slideRightRoutes,
+          path: '/recipe-detail',
+        ),
+      ]
+    ),
+
+    AutoRoute(
+      page: AuthPage,
+      path: '/auth',
+    ),
   ],
 )
 class $AppRouter {}
 
 // Анимация перехода
-Widget slideRightRoutes(BuildContext context, Animation<double> animation,
-    Animation<double> secondaryAnimation, Widget child) {
+Widget slideRightRoutes(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
   return SlideTransition(
     position: Tween<Offset>(
       begin: const Offset(1, 0),

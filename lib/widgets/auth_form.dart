@@ -20,8 +20,8 @@ class AuthForm extends StatelessWidget {
     String repassword = '';
 
     return BlocProvider(
-      create: (_) => IsAuthCubit(),
-      child: BlocBuilder<IsAuthCubit, bool>(
+      create: (_) => StateAuthUserCubit(),
+      child: BlocBuilder<StateAuthUserCubit, bool>(
         builder: (context, isAuth) => Scaffold(
           backgroundColor: const Color(0xFF2ECC71),
           bottomNavigationBar: BottomNavigation(pageIndex: 1),
@@ -197,7 +197,7 @@ class AuthForm extends StatelessWidget {
                           children: [
                             TextButton(
                               onPressed: () {
-                                context.read<IsAuthCubit>().changeState();
+                                context.read<StateAuthUserCubit>().changeState();
                               },
                               child: Text(
                                 isAuth
