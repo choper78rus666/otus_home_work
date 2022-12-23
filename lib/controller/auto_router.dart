@@ -19,16 +19,12 @@ import '../widgets/recipients_list.dart';
     AutoRoute(
       page: FavoriteList,
       path: '/favorite-list',
-      children: [
-        CustomRoute(
-          page: RecipeDetailPage,
-          durationInMilliseconds: 800,
-          transitionsBuilder: slideRightRoutes,
-          path: '/recipe-detail',
-        ),
-      ]
     ),
-
+    CustomRoute(
+      page: RecipeDetailPage,
+      durationInMilliseconds: 800,
+      transitionsBuilder: slideRightRoutes,
+    ),
     AutoRoute(
       page: AuthPage,
       path: '/auth',
