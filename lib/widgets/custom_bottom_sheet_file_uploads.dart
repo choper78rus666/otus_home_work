@@ -167,14 +167,14 @@ class CustomBottomSheetFileUploads {
   }
 
   // Сохранение вреименного файла в память
-  saveFile() async {
+  Future<String> saveFile(directory) async {
     String pathFile = '';
     File file = File(_photoIcon);
 
     if (await file.exists()) {
-      final Directory directory = await getApplicationDocumentsDirectory();
-      file.copy('${directory.path}/$_photoIconName');
-      pathFile = '${directory.path}/$_photoIconName';
+
+      file.copy('$directory/$_photoIconName');
+      pathFile = '$directory/$_photoIconName';
     }
     addPhotoIcon = '';
     addIconName = '';

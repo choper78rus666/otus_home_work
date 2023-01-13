@@ -2,9 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:home_work/widgets/comments.dart';
 import 'package:home_work/widgets/favorite.dart';
 
+import '../bloc/comments.dart';
 import '../configs/recipients.dart';
 import '../controller/globals.dart';
 import 'bottom_navigation.dart';
@@ -321,7 +323,10 @@ class RecipeDetailPage extends StatelessWidget {
               // Шаги приготовления - чекбоксы - Начать готовить
               StartProcess(index: index)
             ],
-            Comments(index: index),
+    BlocProvider(
+    create: (_) => CommentsFileUploadCubit(),
+    child: BlocBuilder<CommentsFileUploadCubit, bool>(
+    builder: (context, state) => Comments(index: index))),
           ],
         ),
       ),
