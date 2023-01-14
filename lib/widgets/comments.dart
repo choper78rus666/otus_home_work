@@ -7,6 +7,7 @@ import '../configs/recipients.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:home_work/controller/globals.dart';
+import '../controller/isolate_process.dart';
 import 'carousel_slider.dart';
 import 'custom_bottom_sheet_file_uploads.dart';
 
@@ -26,7 +27,8 @@ class _CommentState extends State<Comments> {
   String photoIconName = '';
   File? pathFile;
 
-  CustomBottomSheetFileUploads customBottomSheet = CustomBottomSheetFileUploads();
+  CustomBottomSheetFileUploads customBottomSheet =
+      CustomBottomSheetFileUploads();
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +73,8 @@ class _CommentState extends State<Comments> {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 0),
                       decoration: BoxDecoration(
-                        border: Border.all(color: const Color(0xFF797676), width: 1),
+                        border: Border.all(
+                            color: const Color(0xFF797676), width: 1),
                       ),
                     ),
                     Container(
@@ -81,7 +84,9 @@ class _CommentState extends State<Comments> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Image.asset(
-                          value['avatar'].toString().isEmpty ? 'assets/images/no_image.png' : value['avatar'],
+                          value['avatar'].toString().isEmpty
+                              ? 'assets/images/no_image.png'
+                              : value['avatar'],
                           height: 63,
                           width: 80,
                           fit: BoxFit.contain,
@@ -95,7 +100,8 @@ class _CommentState extends State<Comments> {
                                 height: 30,
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       (value['name'] ?? ''),
@@ -126,7 +132,8 @@ class _CommentState extends State<Comments> {
                               if (value['image'].toString().isNotEmpty)
                                 Container(
                                   //alignment: Alignment.topLeft,
-                                  padding: const EdgeInsets.only(top: 12, bottom: 48),
+                                  padding: const EdgeInsets.only(
+                                      top: 12, bottom: 48),
                                   child: (value['image'].contains('assets')
                                       ? Image.asset(
                                           value['image'],
@@ -186,14 +193,26 @@ class _CommentState extends State<Comments> {
                       if (customBottomSheet.photoIcon.isNotEmpty) {
                         // Ставим заглушку на время загрузки файла
                         photoIcon = 'assets/images/no_image.png';
-                        int indexComments = globals.myVariable[widget.index]['comments'].length;
-                        ProcessIsolate(customBottomSheet.photoIcon, customBottomSheet.photoIconName).saveFileIsolate(indexComments, widget.index, () {
-                          // Освобождаем временный файл
-                          customBottomSheet.addPhotoIcon = '';
-                          customBottomSheet.addIconName = '';
-                          context.read<CommentsFileUploadCubit>().changeState();
-                        });
-                        //viewImages.add(photoIcon);
+                        int indexComments =
+                            globals.myVariable[widget.index]['comments'].length;
+
+                        // Сохраняем файл через изолят
+                        ProcessIsolate().saveFileIsolate(
+                          indexComments,
+                          widget.index,
+                          {
+                            'photoIcon': customBottomSheet.photoIcon,
+                            'photoIconName': customBottomSheet.photoIconName
+                          },
+                          () {
+                            // Освобождаем временный файл
+                            customBottomSheet.addPhotoIcon = '';
+                            customBottomSheet.addIconName = '';
+                            context
+                                .read<CommentsFileUploadCubit>()
+                                .changeState();
+                          },
+                        );
                       }
                       Map<String, String> addComment = {
                         'date': '$day.$month.${currentDay.year}',
@@ -203,16 +222,14 @@ class _CommentState extends State<Comments> {
                         'avatar': 'assets/images/avatar.png',
                       };
 
-                      globals.myVariable[widget.index]['comments'].add(addComment);
+                      globals.myVariable[widget.index]['comments']
+                          .add(addComment);
 
                       // Освобождаем временный файл
-                      photoIcon = '';
-                      photoIconName = '';
+                      //photoIcon = '';
+                      //photoIconName = '';
                       _controller.clear();
-                      //viewComments.add(addComment);
 
-                      //Прибавляем сохраненное к статитке в конфиге ( потом все будет в БД)
-                      //if (!mounted) return;
                       context.read<CommentsFileUploadCubit>().changeState();
                     }
                   },
@@ -255,7 +272,8 @@ class _CommentState extends State<Comments> {
                     fit: BoxFit.contain,
                   ),
                   tooltip: 'Загрузить фото',
-                  onPressed: () => customBottomSheet.showSheet(context, mounted),
+                  onPressed: () =>
+                      customBottomSheet.showSheet(context, mounted),
                 ),
               ),
             ],
@@ -264,51 +282,4 @@ class _CommentState extends State<Comments> {
       ],
     );
   }
-}
-
-class CustomObject {
-  String photoIcon;
-  String photoIconName;
-  SendPort sendPort;
-
-  CustomObject(this.photoIcon, this.photoIconName, this.sendPort);
-}
-
-class ProcessIsolate {
-
-  String photoIcon;
-  String photoIconName;
-  Globals globals = Globals();
-
-  ProcessIsolate(this.photoIcon, this.photoIconName);
-
-  // Сохранение файла через изолят
-  Future<void> saveFileIsolate(int indexComments, indexWidget, callBack) async {
-
-    ReceivePort receivePort = ReceivePort();
-    final directory = await getApplicationDocumentsDirectory();
-
-    Isolate isolate = await Isolate.spawn(saveFileProcess, [directory.path, photoIcon, photoIconName, receivePort.sendPort]);
-
-    receivePort.listen((localPath) {
-      print(localPath);
-      globals.myVariable[indexWidget]['comments'][indexComments]['image'] = localPath;
-      isolate.kill(priority: Isolate.immediate);
-      callBack();
-    });
-  }
-
-
-}
-// Процесс работы изолята
-void saveFileProcess(data) async {
-  final customBottomSheet = CustomBottomSheetFileUploads();
-  customBottomSheet.addPhotoIcon = data[1];
-  customBottomSheet.addIconName = data[2];
-  print(customBottomSheet.photoIcon);
-  print(customBottomSheet.photoIconName);
-
-  String localPath = await customBottomSheet.saveFile(data[0]);
-  Isolate.exit(data[3], localPath);
-  //data[2].send(localPath);
 }
