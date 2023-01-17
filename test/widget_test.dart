@@ -1,29 +1,15 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:home_work/controller/globals.dart';
-import 'package:home_work/controller/init.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
-import 'package:home_work/controller/auto_router.gr.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:home_work/controller/init.dart';
 import 'package:home_work/configs/recipients.dart';
-import 'package:home_work/main.dart';
+import 'package:home_work/widgets/execution_steps.dart';
 import 'package:home_work/widgets/favorite.dart';
-import 'package:home_work/widgets/recipe_card.dart';
 import 'package:home_work/widgets/recipe_detail_page.dart';
-import 'package:home_work/widgets/recipients_list.dart';
 
 void main() async {
-
- await Future.wait([
+  await Future.wait([
     //Hive.initFlutter(),
     Init().loadData(),
   ]);
@@ -33,74 +19,100 @@ void main() async {
 
   group('Тесты:', () {
     /**
-     * Тестируем время проставленное в рецепте, 
+     * Тестируем время проставленное в рецепте,
      * с суммой времени указанного в шагах выполнения.
      * В случае не совпадения выводим ошибку с указанием рецепта.
      */
 
-    // Unit тесты
-      recipeKeys.asMap().forEach((key, value) {
-        test("Общее время на выполнение рецепта ${globals.data['recipeList'][value].name}", () {
+    // Unit тесты - Перебираем все рецепты
+    recipeKeys.asMap().forEach((key, value) {
+      test("Общее время на выполнение рецепта ${globals.data['recipeList'][value].name}", () {
+        int counterTime = 0;
 
-          int counterTime = 0;
-
-          if(recipeList[key]['steps'] != null){
-
-            recipeList[key]['steps'].forEach((val){
-              counterTime += val['time'] as int;
-            });
-
-          }
-          // Транслируем ошибку сравнения времени
-          expect(globals.data['recipeList'][value].duration, equals(counterTime));
-        });
-
-// Widget тесты
-    testWidgets('Тестирование виджета страницы рецепта:', (WidgetTester tester) async {
-    globals.data['auth']['status'] = true;
-
-    // Запускаем тест приложения
-    /*await tester.pumpWidget(RecipeDetailPage(
-    key: UniqueKey(),
-    index: key,
-    typeCard: 'recipe',
-    ));*/
-    await tester.pumpWidget(MyApp());
-    await tester.pump(const Duration(seconds: 1));
-    print("isFavorite ${globals.myVariable[key]['is_favorite']}");
-
-    //final pages = find.byWidget(RecipeList());
-    Widget myButton = RecipeCard(typeCard: 'recipe', index: key);
-    final slectCard = find.byWidget(myButton);
-    expect(slectCard, findsOneWidget);
-    await tester.tap(slectCard);
-    await tester.pump();
-    final favorite = find.byTooltip('Избранное');
-    expect(favorite, findsOneWidget);
-
-    await tester.tap(favorite);
-    await tester.pump();
-    print("isFavorite ${globals.myVariable[key]['is_favorite']}");
-    // Verify that our counter starts at 0.
-    // expect(find.text('Избранное'), findsOneWidget);
-    //expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    //await tester.tap(find.byWidget(Favorite(index: key,)));
-    //await tester.pump();
-
-
-
-    // Verify that our counter has incremented.
-    //expect(find.text('0'), findsNothing);
-    // expect(find.text('1'), findsOneWidget);
-    });
-
+        if (recipeList[key]['steps'] != null) {
+          recipeList[key]['steps'].forEach((val) {
+            counterTime += val['time'] as int;
+          });
+        }
+        // Транслируем ошибку сравнения времени
+        expect(globals.data['recipeList'][value].duration, equals(counterTime));
       });
-    
-  });
-print(recipeKeys);
-  recipeKeys.asMap().forEach((key, value) {
 
+      // Widget тесты страниц рецептов
+      testWidgets("Тестирование виджета страницы рецепта  ${globals.data['recipeList'][value].name}:", (WidgetTester tester) async {
+        // Авторизуем пользователя
+        globals.data['auth']['status'] = true;
+
+        // Запускаем страницы рецепта
+        RecipeDetailPage(
+          key: UniqueKey(),
+          index: key,
+          typeCard: 'recipe',
+        );
+
+        // Тест нажатия на избранное
+        globals.myVariable[key]['is_favorite'] = false;
+
+        print("isFavorite ${globals.myVariable[key]['is_favorite']}");
+
+        await tester.pumpWidget(MaterialApp(
+          home: Material(
+            child: Favorite(
+              index: key,
+            ),
+          ),
+        ));
+
+        expect(find.byTooltip('Избранное'), findsWidgets);
+        final favorite = find.byType(IconButton);
+        await tester.tap(favorite);
+        await tester.pump(const Duration(seconds: 2));
+        expect(find.byTooltip('В избранном'), findsWidgets);
+        expect(globals.myVariable[key]['is_favorite'], isTrue);
+
+        print("isFavorite ${globals.myVariable[key]['is_favorite']}");
+      });
+
+      testWidgets("Тестирование шагов выполнения виджета страницы рецепта  ${globals.data['recipeList'][value].name}:", (WidgetTester tester) async {
+        globals.myVariable[key]['is_started'] = true;
+        // Проверяем шаги приготовления
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Material(
+              child: StartProcess(
+                index: key,
+              ),
+            ),
+          ),
+        );
+
+        await tester.pump(const Duration(seconds: 2));
+       // final start = find.text('Начать готовить');
+        //expect(start, findsWidgets);
+        //await tester.tap(start);
+
+        await tester.pump(const Duration(seconds: 2));
+        expect(find.text('Закончить готовить'), findsWidgets);
+        // Выводим статус активноти шагов выполнение
+        print('Started ${globals.myVariable[key]['is_started']}');
+        print(globals.myVariable[key]['steps']);
+
+        if (recipeList[key]['steps'] != null) {
+
+          // Ставлю на проверку 5 шагов, остальные не влезли в экран
+          for(int nextStep = 0; nextStep < 4; nextStep++){
+
+            final startSteps = find.byKey(Key('Step ${nextStep}'));
+            expect(startSteps, findsWidgets);
+            await tester.tap(startSteps);
+            await tester.pump(const Duration(seconds: 2));
+            final checkbox = tester.firstWidget(startSteps) as Checkbox;
+            expect(checkbox.value, true);
+          }
+          // Выводим итоговый статус активноти шагов выполнение
+          print(globals.myVariable[key]['steps']);
+        }
+      });
+    });
   });
 }

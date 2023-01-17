@@ -174,6 +174,7 @@ class ExecutionSteps extends StatelessWidget {
         scale: val['scale'],
         duration: const Duration(milliseconds: 300),
         child: Checkbox(
+          key: Key('Step $step'),
           splashRadius: 0,
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(4))),

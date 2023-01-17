@@ -32,7 +32,7 @@ class Favorite extends StatelessWidget {
                     )
                   : Image.asset('assets/icons/heart_active.png'))
               : Image.asset('assets/icons/heart.png'),
-          tooltip: 'Избранное',
+          tooltip: (isSelect ? 'В избранном': 'Избранное'),
           onPressed: () {
             globals.myVariable[index]['is_favorite'] = !isSelect;
             isAnimated = true;
