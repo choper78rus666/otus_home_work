@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:home_work/controller/globals.dart';
 
@@ -16,6 +17,8 @@ void main() async {
 
   final Globals globals = Globals();
   final recipeKeys = globals.data['recipeList'].keys.toList();
+  // Авторизуем пользователя
+  globals.data['auth']['status'] = true;
 
   group('Тесты:', () {
     /**
@@ -39,10 +42,37 @@ void main() async {
       });
 
       // Widget тесты страниц рецептов
-      testWidgets("Тестирование виджета страницы рецепта  ${globals.data['recipeList'][value].name}:", (WidgetTester tester) async {
-        // Авторизуем пользователя
-        globals.data['auth']['status'] = true;
+      testWidgets("Тестирование наличия основных блоков виджета страницы рецепта  ${globals.data['recipeList'][value].name}:", (WidgetTester tester) async {
+        // Запускаем страницы рецепта
+        RecipeDetailPage(
+          key: UniqueKey(),
+          index: key,
+          typeCard: 'recipe',
+        );
+        await tester.pumpWidget(MaterialApp(
+          home: Material(
+            child: RecipeDetailPage(
+              key: UniqueKey(),
+              index: key,
+              typeCard: 'recipe',
+            ),
+          ),
+        ));
 
+        expect(find.byType(AppBar), findsWidgets);
+        expect(find.text('Рецепт'), findsWidgets);
+        expect(find.byType(Favorite), findsWidgets);
+        expect(find.byTooltip('Избранное'), findsWidgets);
+        expect(find.byType(CachedNetworkImage), findsWidgets);
+        expect(find.text('Ингредиенты'), findsWidgets);
+        await tester.pump(const Duration(seconds: 2));
+        final start = find.text('Начать готовить');
+        await tester.scrollUntilVisible(start, 700);
+        expect(start, findsWidgets);
+        expect(find.byType(StartProcess), findsWidgets);
+      });
+
+      testWidgets("Тестирование нажатия на кнопку избранное виджета страницы рецепта  ${globals.data['recipeList'][value].name}:", (WidgetTester tester) async {
         // Запускаем страницы рецепта
         RecipeDetailPage(
           key: UniqueKey(),
@@ -74,7 +104,6 @@ void main() async {
       });
 
       testWidgets("Тестирование шагов выполнения виджета страницы рецепта  ${globals.data['recipeList'][value].name}:", (WidgetTester tester) async {
-        globals.myVariable[key]['is_started'] = true;
         // Проверяем шаги приготовления
         await tester.pumpWidget(
           MaterialApp(
@@ -86,31 +115,31 @@ void main() async {
           ),
         );
 
+        print('Started ${globals.myVariable[key]['is_started']}');
         await tester.pump(const Duration(seconds: 2));
-       // final start = find.text('Начать готовить');
-        //expect(start, findsWidgets);
-        //await tester.tap(start);
-
+        final start = find.text('Начать готовить');
+        expect(start, findsWidgets);
+        await tester.scrollUntilVisible(start, 10);
+        await tester.tap(start);
         await tester.pump(const Duration(seconds: 2));
         expect(find.text('Закончить готовить'), findsWidgets);
+
         // Выводим статус активноти шагов выполнение
         print('Started ${globals.myVariable[key]['is_started']}');
-        print(globals.myVariable[key]['steps']);
+        print('Steps checked: ${globals.myVariable[key]['steps']}');
 
         if (recipeList[key]['steps'] != null) {
-
-          // Ставлю на проверку 5 шагов, остальные не влезли в экран
-          for(int nextStep = 0; nextStep < 4; nextStep++){
-
-            final startSteps = find.byKey(Key('Step ${nextStep}'));
+          for (int nextStep = 0; nextStep < recipeList[key]['steps'].length; nextStep++) {
+            final startSteps = find.byKey(Key('Step $nextStep'));
             expect(startSteps, findsWidgets);
+            await tester.scrollUntilVisible(startSteps, 10);
             await tester.tap(startSteps);
             await tester.pump(const Duration(seconds: 2));
             final checkbox = tester.firstWidget(startSteps) as Checkbox;
             expect(checkbox.value, true);
           }
           // Выводим итоговый статус активноти шагов выполнение
-          print(globals.myVariable[key]['steps']);
+          print('Steps checked: ${globals.myVariable[key]['steps']}');
         }
       });
     });

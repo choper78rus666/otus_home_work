@@ -17,7 +17,6 @@ class AuthForm extends StatelessWidget {
     final formKey = GlobalKey<FormState>();
     String login = '';
     String password = '';
-    String repassword = '';
 
     return BlocProvider(
       create: (_) => StateAuthUserCubit(),
@@ -150,8 +149,6 @@ class AuthForm extends StatelessWidget {
                             }
                             if (value != password) {
                               return 'Пароли не совпадают';
-                            } else {
-                              repassword = value;
                             }
                             return null;
                           },
@@ -181,12 +178,7 @@ class AuthForm extends StatelessWidget {
                             // TODO: нужна проверка авторизации
                             global.data['auth']['user_name'] = login;
                             global.data['auth']['status'] = true;
-
-                            print(login);
-                            print(password);
-                            print(repassword);
                             context.read<StateAuthPageCubit>().changeState();
-                            //BlocProvider.of<StateAuthPageCubit>(context).changeState();
                           }
                         },
                       ),
